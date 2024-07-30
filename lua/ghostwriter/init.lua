@@ -47,13 +47,11 @@ function M.post_current_buf()
 	vim.api.nvim_buf_set_lines(cbuf, 0, 1, false, { res2.channel .. "," .. res2.ts })
 end
 
--- TODO: optsの追加
 function M.setup(opts)
 	config.setup(opts)
 	vim.api.nvim_create_user_command("Ghostwrite", function()
-		vim.api.nvim_echo({ { "Notify to slack ...", "Normal" } }, false, {})
 		M.post_current_buf()
-		vim.api.nvim_echo({ { "✔️  Success", "Normal" } }, false, {})
+		vim.api.nvim_echo({ { "👻 Post success", "Normal" } }, false, {})
 	end, { nargs = 0 })
 end
 
