@@ -23,10 +23,10 @@ function M.until_delimiter(arr, delimiter)
 	return result
 end
 
-function M.double_indent(line)
+function M.scale_indent(line, ratio)
 	local leading_spaces = line:match("^%s*")
-	local doubled_spaces = leading_spaces .. leading_spaces
-	return doubled_spaces .. line:sub(#leading_spaces + 1)
+	local spaces = string.rep(leading_spaces, ratio)
+	return spaces .. line:sub(#leading_spaces + 1)
 end
 
 function M.convert_link_format(input)

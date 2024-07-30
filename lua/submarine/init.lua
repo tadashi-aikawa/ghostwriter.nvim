@@ -1,5 +1,6 @@
 local util = require("submarine.util")
 local slack = require("submarine.slack")
+local config = require("submarine.config")
 
 local M = {}
 
@@ -16,11 +17,13 @@ function M.post_current_buf()
 
 	-- "---"より前
 	local body_lines = vim.tbl_map(function(line)
-		line = string.gsub(line, "- %[~%] ", ":loading: ")
-		line = string.gsub(line, "- %[x%] ", ":ok_green: ")
-		line = string.gsub(line, "- %[ %] ", ":circle-success: ")
-
-		return util.double_indent(util.convert_link_format(line))
+		for _, check in ipairs(config.options.check) do
+			local pattern = "- %[" .. check.mark .. "%] "
+			local emoji = ":" .. check.emoji .. ": "
+			line = string.gsub(line, pattern, emoji)
+		end
+		line = util.scale_indent(line, config.options.indent.ratio)
+		return util.convert_link_format(line)
 	end, util.until_delimiter({ unpack(lines, 3) }, "---"))
 	local contents = table.concat(body_lines, "\n")
 
@@ -42,6 +45,7 @@ end
 
 -- TODO: optsの追加
 function M.setup(opts)
+	config.setup(opts)
 	vim.api.nvim_create_user_command("Submarine", function()
 		vim.api.nvim_echo({ { "Notify to slack ...", "Normal" } }, false, {})
 		M.post_current_buf()
