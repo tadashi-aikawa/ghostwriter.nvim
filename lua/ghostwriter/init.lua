@@ -6,7 +6,7 @@ local collections = require("ghostwriter.collections")
 local M = {}
 
 local function transform_by_check(line, check)
-	local pattern = "- %[" .. check.mark .. "%] "
+	local pattern = "- %[" .. util.escape(check.mark) .. "%] "
 	local emoji = ":" .. check.emoji .. ": "
 	return string.gsub(line, pattern, emoji)
 end

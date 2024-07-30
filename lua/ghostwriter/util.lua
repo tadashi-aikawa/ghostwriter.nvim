@@ -33,4 +33,13 @@ function M.convert_link_format(input)
 	return input:gsub("%[([^%]]+)%]%(([^%)]+)%)", "<%2|%1>")
 end
 
+function M.escape(str)
+	-- TODO: ちゃんとした実装
+	if str == "-" then
+		return "%-"
+	end
+
+	return str
+end
+
 return M
