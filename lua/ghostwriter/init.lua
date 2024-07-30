@@ -1,6 +1,6 @@
-local util = require("submarine.util")
-local slack = require("submarine.slack")
-local config = require("submarine.config")
+local util = require("ghostwriter.util")
+local slack = require("ghostwriter.slack")
+local config = require("ghostwriter.config")
 
 local M = {}
 
@@ -46,7 +46,7 @@ end
 -- TODO: optsの追加
 function M.setup(opts)
 	config.setup(opts)
-	vim.api.nvim_create_user_command("Submarine", function()
+	vim.api.nvim_create_user_command("Ghostwrite", function()
 		vim.api.nvim_echo({ { "Notify to slack ...", "Normal" } }, false, {})
 		M.post_current_buf()
 		vim.api.nvim_echo({ { "✔️  Success", "Normal" } }, false, {})
