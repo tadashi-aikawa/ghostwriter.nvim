@@ -1,8 +1,20 @@
 local util = require("ghostwriter.util")
 local slack = require("ghostwriter.slack")
 local config = require("ghostwriter.config")
+local collections = require("ghostwriter.collections")
 
 local M = {}
+
+local function transform_by_check(line, check)
+	local pattern = "- %[" .. check.mark .. "%] "
+	local emoji = ":" .. check.emoji .. ": "
+	return string.gsub(line, pattern, emoji)
+end
+
+local function transform_line(line)
+	local r_line = collections.reduce(config.options.check, transform_by_check, line)
+	return util.convert_link_format(util.scale_indent(r_line, config.options.indent.ratio))
+end
 
 function M.post_current_buf()
 	local cbuf = vim.api.nvim_get_current_buf()
@@ -16,15 +28,7 @@ function M.post_current_buf()
 	local url = lines[1]
 
 	-- "---"より前
-	local body_lines = vim.tbl_map(function(line)
-		for _, check in ipairs(config.options.check) do
-			local pattern = "- %[" .. check.mark .. "%] "
-			local emoji = ":" .. check.emoji .. ": "
-			line = string.gsub(line, pattern, emoji)
-		end
-		line = util.scale_indent(line, config.options.indent.ratio)
-		return util.convert_link_format(line)
-	end, util.until_delimiter({ unpack(lines, 3) }, "---"))
+	local body_lines = vim.tbl_map(transform_line, util.until_delimiter({ unpack(lines, 3) }, "---"))
 	local contents = table.concat(body_lines, "\n")
 
 	local channel_id, ts = slack.pick_channel_and_ts(url)
