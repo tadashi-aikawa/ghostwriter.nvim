@@ -4,7 +4,7 @@ local curl = require("plenary.curl")
 local M = {}
 
 local function get_token()
-	return vim.fn.getenv("SLACK_USER_TOKEN")
+	return vim.fn.getenv("GHOSTWRITER_SLACK_TOKEN")
 end
 
 function M.post_message(channel_id, message)

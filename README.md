@@ -39,7 +39,7 @@ return {
 
 ## Requirements
 
-You should create a "Slack user token" with the [chat:write] scope and set it to the `SLACK_USER_TOKEN` environment variable.
+You should create a "Slack user token" with the [chat:write] scope and set it to the `GHOSTWRITER_SLACK_TOKEN` environment variable.
 
 ## Quick start
 
