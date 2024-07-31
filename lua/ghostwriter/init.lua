@@ -53,7 +53,7 @@ function M.setup(opts)
 	config.setup(opts)
 	vim.api.nvim_create_user_command("Ghostwrite", function()
 		M.post_current_buf()
-		vim.api.nvim_echo({ { "👻 Post success", "Normal" } }, false, {})
+		vim.notify("👻 Post success")
 	end, { nargs = 0 })
 end
 
