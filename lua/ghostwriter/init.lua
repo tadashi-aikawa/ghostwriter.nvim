@@ -33,9 +33,11 @@ function M.post_current_buf()
 
 	local channel_id, ts = slack.pick_channel_and_ts(dst)
 
-	local res1 = slack.delete_message(channel_id, ts)
-	if not res1.ok then
-		error(util.print_table(res1, 2))
+	if ts then
+		local res1 = slack.delete_message(channel_id, ts)
+		if not res1.ok then
+			error(util.print_table(res1, 2))
+		end
 	end
 
 	local res2 = slack.post_message(channel_id, contents)

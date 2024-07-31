@@ -48,7 +48,7 @@ function M.pick_channel_and_ts(dst)
 
 	-- urlでない場合はchannel_id,ts形式
 	local channel_id2, ts = unpack(vim.split(dst, ","))
-	if not channel_id2 or not ts then
+	if not channel_id2 then
 		error("Invalid dst format")
 	end
 
