@@ -39,17 +39,17 @@ function M.delete_message(channel_id, ts)
 	return vim.fn.json_decode(response.body)
 end
 
-function M.pick_channel_and_ts(str)
-	local channel_id, message_id = str:match("https://%w+.slack.com/archives/(%w+)/p(%d+)")
+function M.pick_channel_and_ts(dst)
+	local channel_id, message_id = dst:match("https://%w+.slack.com/archives/(%w+)/p(%d+)")
 	if channel_id and message_id then
 		local ts = message_id:sub(1, 10) .. "." .. message_id:sub(11)
 		return channel_id, ts
 	end
 
 	-- urlでない場合はchannel_id,ts形式
-	local channel_id2, ts = unpack(vim.split(str, ","))
+	local channel_id2, ts = unpack(vim.split(dst, ","))
 	if not channel_id2 or not ts then
-		error("Invalid URL format")
+		error("Invalid dst format")
 	end
 
 	return channel_id2, ts

@@ -25,13 +25,13 @@ function M.post_current_buf()
 	end
 
 	-- ex: https://minerva.slack.com/archives/C1J80C5MF/p1722259290076499
-	local url = lines[1]
+	local dst = lines[1]
 
 	-- "---"より前
 	local body_lines = vim.tbl_map(transform_line, util.until_delimiter({ unpack(lines, 3) }, "---"))
 	local contents = table.concat(body_lines, "\n")
 
-	local channel_id, ts = slack.pick_channel_and_ts(url)
+	local channel_id, ts = slack.pick_channel_and_ts(dst)
 
 	local res1 = slack.delete_message(channel_id, ts)
 	if not res1.ok then
