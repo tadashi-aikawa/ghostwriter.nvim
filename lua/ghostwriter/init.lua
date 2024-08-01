@@ -14,7 +14,7 @@ end
 
 local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
-	r_line = functions.pipe(r_line, util.convert_strikethrough, util.convert_link_format)
+	r_line = functions.pipe(r_line, util.convert_header, util.convert_strikethrough, util.convert_link_format)
 	return util.scale_indent(r_line, config.options.indent.ratio)
 end
 
