@@ -34,6 +34,8 @@ function M.post_current_buf()
 	local in_code_block = false
 	for i, line in ipairs(body_lines) do
 		if line:match("^```") then
+			-- 言語は消す.終わりも引っかかるけどそこは無視
+			body_lines[i] = "```"
 			in_code_block = not in_code_block
 		end
 
