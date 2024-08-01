@@ -2,6 +2,7 @@ local util = require("ghostwriter.util")
 local slack = require("ghostwriter.slack")
 local config = require("ghostwriter.config")
 local collections = require("ghostwriter.collections")
+local functions = require("ghostwriter.functions")
 
 local M = {}
 
@@ -13,7 +14,8 @@ end
 
 local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
-	return util.convert_link_format(util.scale_indent(r_line, config.options.indent.ratio))
+	r_line = functions.pipe(r_line, util.convert_strikethrough, util.convert_link_format)
+	return util.scale_indent(r_line, config.options.indent.ratio)
 end
 
 function M.post_current_buf()
@@ -28,7 +30,18 @@ function M.post_current_buf()
 	local dst = lines[1]
 
 	-- "---"より前
-	local body_lines = vim.tbl_map(transform_line, util.until_delimiter({ unpack(lines, 3) }, "---"))
+	local body_lines = util.until_delimiter({ unpack(lines, 3) }, "---")
+	local in_code_block = false
+	for i, line in ipairs(body_lines) do
+		if line:match("^```") then
+			in_code_block = not in_code_block
+		end
+
+		if not in_code_block then
+			body_lines[i] = transform_line(line)
+		end
+	end
+
 	local contents = table.concat(body_lines, "\n")
 
 	local channel_id, ts = slack.pick_channel_and_ts(dst)

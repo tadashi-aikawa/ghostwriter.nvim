@@ -33,6 +33,10 @@ function M.convert_link_format(input)
 	return input:gsub("%[([^%]]+)%]%(([^%)]+)%)", "<%2|%1>")
 end
 
+function M.convert_header(input)
+	return input:gsub("^#+ (.+)", "*%1*")
+end
+
 function M.escape(str)
 	-- TODO: ちゃんとした実装
 	if str == "-" then
