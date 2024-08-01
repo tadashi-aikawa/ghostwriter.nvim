@@ -3,19 +3,20 @@ local slack = require("ghostwriter.slack")
 local config = require("ghostwriter.config")
 local collections = require("ghostwriter.collections")
 local functions = require("ghostwriter.functions")
+local strings = require("ghostwriter.strings")
 
 local M = {}
 
 local function transform_by_check(line, check)
-	local pattern = "[-*] %[" .. util.escape(check.mark) .. "%] "
+	local pattern = "[-*] %[" .. strings.escape(check.mark) .. "%] "
 	local emoji = ":" .. check.emoji .. ": "
 	return string.gsub(line, pattern, emoji)
 end
 
 local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
-	r_line = functions.pipe(r_line, util.convert_header, util.convert_strikethrough, util.convert_link_format)
-	return util.scale_indent(r_line, config.options.indent.ratio)
+	r_line = functions.pipe(r_line, strings.convert_header, strings.convert_link)
+	return strings.scale_indent(r_line, config.options.indent.ratio)
 end
 
 function M.post_current_buf()
@@ -30,7 +31,7 @@ function M.post_current_buf()
 	local dst = lines[1]
 
 	-- "---"より前
-	local body_lines = util.until_delimiter({ unpack(lines, 3) }, "---")
+	local body_lines = collections.head_while({ unpack(lines, 3) }, "---")
 	local in_code_block = false
 	for i, line in ipairs(body_lines) do
 		if line:match("^```") then
