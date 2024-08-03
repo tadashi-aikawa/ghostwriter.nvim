@@ -9,20 +9,26 @@ local strings = require("ghostwriter.strings")
 
 local M = {}
 
+---@param line string
+---@param check {mark: string, emoji: string}
+---@return string
 local function transform_by_check(line, check)
 	local pattern = "[-*] %[" .. strings.escape(check.mark) .. "%] "
 	local emoji = ":" .. check.emoji .. ": "
-	return string.gsub(line, pattern, emoji)
+	return strings.replace(line, pattern, emoji)
 end
 
+---@param line string
+---@return string
 local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
-	r_line = string.gsub(r_line, "(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ":%2")
+	r_line = strings.replace(r_line, "(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ":%2")
 	r_line = functions.pipe(r_line, strings.convert_header, strings.convert_link)
 	return strings.scale_indent(r_line, config.options.indent.ratio)
 end
 
-function M.async_post_current_buf()
+---@async
+function M.post_current_buf()
 	local cbuf = vim.api.nvim_get_current_buf()
 
 	local lines = vim.api.nvim_buf_get_lines(cbuf, 0, -1, false)
@@ -55,15 +61,15 @@ function M.async_post_current_buf()
 		local notifier = vim.notify("⏳ Posting...", vim.log.levels.INFO, { timeout = nil })
 
 		if ts then
-			local res1 = slack.async_delete_message(channel_id, ts)
+			local res1 = slack.delete_message(channel_id, ts)
 			if not res1.ok then
-				error(util.print_table(res1, 2))
+				error(util.print_table(res1))
 			end
 		end
 
-		local res2 = slack.async_post_message(channel_id, contents)
+		local res2 = slack.post_message(channel_id, contents)
 		if not res2.ok then
-			error(util.print_table(res2, 2))
+			error(util.print_table(res2))
 		end
 
 		async.util.scheduler()
@@ -75,7 +81,7 @@ end
 
 function M.setup(opts)
 	config.setup(opts)
-	vim.api.nvim_create_user_command("Ghostwrite", M.async_post_current_buf, { nargs = 0 })
+	vim.api.nvim_create_user_command("Ghostwrite", M.post_current_buf, { nargs = 0 })
 end
 
 return M

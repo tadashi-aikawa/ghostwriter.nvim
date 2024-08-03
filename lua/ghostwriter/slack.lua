@@ -12,7 +12,11 @@ local async_post = async.wrap(function(opts, callback)
 	curl.post(opts)
 end, 2)
 
-function M.async_post_message(channel_id, message)
+---@async
+---@param channel_id string
+---@param message string
+---@return {ok: boolean, channel: string, ts: string}
+function M.post_message(channel_id, message)
 	local response = async_post({
 		url = "https://slack.com/api/chat.postMessage",
 		headers = {
@@ -28,7 +32,11 @@ function M.async_post_message(channel_id, message)
 	return vim.json.decode(response.body)
 end
 
-function M.async_delete_message(channel_id, ts)
+---@async
+---@param channel_id string
+---@param ts string
+---@return {ok: boolean}
+function M.delete_message(channel_id, ts)
 	local response = async_post({
 		url = "https://slack.com/api/chat.delete",
 		headers = {
@@ -44,6 +52,8 @@ function M.async_delete_message(channel_id, ts)
 	return vim.json.decode(response.body)
 end
 
+---@param dst string
+---@return string channel_id, string ts
 function M.pick_channel_and_ts(dst)
 	local channel_id, message_id = dst:match("https://%w+.slack.com/archives/(%w+)/p(%d+)")
 	if channel_id and message_id then
