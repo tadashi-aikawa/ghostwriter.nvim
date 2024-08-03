@@ -1,23 +1,19 @@
-local async = require("plenary.async")
-local curl = require("plenary.curl")
+local async = require("ghostwriter.utils.async")
 
 local M = {}
 
+---@return string | nil
 local function get_token()
+	---@diagnostic disable-next-line: undefined-field
 	return vim.loop.os_getenv("GHOSTWRITER_SLACK_TOKEN")
 end
-
-local async_post = async.wrap(function(opts, callback)
-	opts.callback = callback
-	curl.post(opts)
-end, 2)
 
 ---@async
 ---@param channel_id string
 ---@param message string
 ---@return {ok: boolean, channel: string, ts: string}
 function M.post_message(channel_id, message)
-	local response = async_post({
+	local response = async.post({
 		url = "https://slack.com/api/chat.postMessage",
 		headers = {
 			["Content-Type"] = "application/json; charset=UTF-8",
@@ -37,7 +33,7 @@ end
 ---@param ts string
 ---@return {ok: boolean}
 function M.delete_message(channel_id, ts)
-	local response = async_post({
+	local response = async.post({
 		url = "https://slack.com/api/chat.delete",
 		headers = {
 			["Content-Type"] = "application/json; charset=UTF-8",

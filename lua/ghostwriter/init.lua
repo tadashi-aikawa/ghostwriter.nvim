@@ -1,11 +1,11 @@
-local async = require("plenary.async")
+local async = require("ghostwriter.utils.async")
+local strings = require("ghostwriter.utils.strings")
+local collections = require("ghostwriter.utils.collections")
+local functions = require("ghostwriter.utils.functions")
+local debug = require("ghostwriter.utils.debug")
 
-local util = require("ghostwriter.util")
-local slack = require("ghostwriter.slack")
 local config = require("ghostwriter.config")
-local collections = require("ghostwriter.collections")
-local functions = require("ghostwriter.functions")
-local strings = require("ghostwriter.strings")
+local slack = require("ghostwriter.slack")
 
 local M = {}
 
@@ -57,22 +57,22 @@ function M.post_current_buf()
 	local channel_id, ts = slack.pick_channel_and_ts(dst)
 
 	---@async
-	functions.async(function()
+	async.void(function()
 		local notifier = vim.notify("⏳ Posting...", vim.log.levels.INFO, { timeout = nil })
 
 		if ts then
 			local res1 = slack.delete_message(channel_id, ts)
 			if not res1.ok then
-				error(util.print_table(res1))
+				error(debug.print_table(res1))
 			end
 		end
 
 		local res2 = slack.post_message(channel_id, contents)
 		if not res2.ok then
-			error(util.print_table(res2))
+			error(debug.print_table(res2))
 		end
 
-		async.util.scheduler()
+		async.terminate()
 
 		vim.api.nvim_buf_set_lines(cbuf, 0, 1, false, { res2.channel .. "," .. res2.ts })
 		vim.notify("👻 Post success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
