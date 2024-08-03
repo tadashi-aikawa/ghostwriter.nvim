@@ -27,7 +27,6 @@ local function transform_line(line)
 	return strings.scale_indent(r_line, config.options.indent.ratio)
 end
 
----@async
 function M.post_current_buf()
 	local cbuf = vim.api.nvim_get_current_buf()
 
@@ -57,7 +56,8 @@ function M.post_current_buf()
 	local contents = table.concat(body_lines, "\n")
 	local channel_id, ts = slack.pick_channel_and_ts(dst)
 
-	async.void(function()
+	---@async
+	functions.async(function()
 		local notifier = vim.notify("⏳ Posting...", vim.log.levels.INFO, { timeout = nil })
 
 		if ts then
