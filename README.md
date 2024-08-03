@@ -48,9 +48,9 @@ You should create a "Slack user token" with the [chat:write] scope and set it to
 
 1. Create a markdown file (ex: `task.md`)
 2. In the first line, write one of the following
-  - the URL of the reference Slack post
-  - the channel ID and ts separated by a comma
-  - the channel ID
+    - the URL of the reference Slack post
+    - the channel ID and ts separated by a comma
+    - the channel ID
 3. List the tasks from the **third** line onwards
 4. Execute the `Ghostwrite` command
 5. Let's check the relevant Slack channel! 👻
