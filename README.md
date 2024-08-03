@@ -47,24 +47,15 @@ You should create a "Slack user token" with the [chat:write] scope and set it to
 ## Quick start
 
 1. Create a markdown file (ex: `task.md`)
-2. In the first line, write either **the URL of the reference Slack post** or **the channel ID and ts separated by a comma**
+2. In the first line, write one of the following
+  - the URL of the reference Slack post
+  - the channel ID and ts separated by a comma
+  - the channel ID
 3. List the tasks from the **third** line onwards
-4. Execute the `Ghostwrite` command (the default keymap is `<C-j>m`)
+4. Execute the `Ghostwrite` command
 5. Let's check the relevant Slack channel! 👻
 
 ex1:
-
-```markdown
-C2J10C5MF,1722347931.398509
-
-- [x] task1
-- [x] task2
-  - [x] task2-1
-  - [ ] task2-2
-- [ ] task3
-```
-
-ex2:
 
 ```markdown
 https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
@@ -76,6 +67,40 @@ https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
 - [ ] task3
 ```
 
+ex2:
+
+```markdown
+C2J10C5MF,1722347931.398509
+
+- [x] task1
+- [x] task2
+  - [x] task2-1
+  - [ ] task2-2
+- [ ] task3
+```
+
+ex3:
+
+```markdown
+C2J10C5MF
+
+## section1
+
+- [x] task1
+  - note1
+  - note2
+
+## section2
+
+- [ ] task2
+
+---
+This line and below are excluded.
+
+- hoge
+- hoge
+
+```
 
 ## Configration
 
