@@ -1,3 +1,5 @@
+local async = require("plenary.async")
+
 local util = require("ghostwriter.util")
 local slack = require("ghostwriter.slack")
 local config = require("ghostwriter.config")
@@ -19,7 +21,7 @@ local function transform_line(line)
 	return strings.scale_indent(r_line, config.options.indent.ratio)
 end
 
-function M.post_current_buf()
+function M.async_post_current_buf()
 	local cbuf = vim.api.nvim_get_current_buf()
 
 	local lines = vim.api.nvim_buf_get_lines(cbuf, 0, -1, false)
@@ -46,31 +48,33 @@ function M.post_current_buf()
 	end
 
 	local contents = table.concat(body_lines, "\n")
-
 	local channel_id, ts = slack.pick_channel_and_ts(dst)
 
-	if ts then
-		local res1 = slack.delete_message(channel_id, ts)
-		if not res1.ok then
-			error(util.print_table(res1, 2))
+	async.void(function()
+		local notifier = vim.notify("⏳ Posting...", vim.log.levels.INFO, { timeout = nil })
+
+		if ts then
+			local res1 = slack.async_delete_message(channel_id, ts)
+			if not res1.ok then
+				error(util.print_table(res1, 2))
+			end
 		end
-	end
 
-	local res2 = slack.post_message(channel_id, contents)
-	if not res2.ok then
-		-- TODO: ここで完了させられる旨を書く
-		error(util.print_table(res2, 2))
-	end
+		local res2 = slack.async_post_message(channel_id, contents)
+		if not res2.ok then
+			error(util.print_table(res2, 2))
+		end
 
-	vim.api.nvim_buf_set_lines(cbuf, 0, 1, false, { res2.channel .. "," .. res2.ts })
+		async.util.scheduler()
+
+		vim.api.nvim_buf_set_lines(cbuf, 0, 1, false, { res2.channel .. "," .. res2.ts })
+		vim.notify("👻 Post success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
+	end)()
 end
 
 function M.setup(opts)
 	config.setup(opts)
-	vim.api.nvim_create_user_command("Ghostwrite", function()
-		M.post_current_buf()
-		vim.notify("👻 Post success")
-	end, { nargs = 0 })
+	vim.api.nvim_create_user_command("Ghostwrite", M.async_post_current_buf, { nargs = 0 })
 end
 
 return M
