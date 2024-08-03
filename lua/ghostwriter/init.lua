@@ -17,6 +17,7 @@ end
 
 local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
+	r_line = string.gsub(r_line, "(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ":%2")
 	r_line = functions.pipe(r_line, strings.convert_header, strings.convert_link)
 	return strings.scale_indent(r_line, config.options.indent.ratio)
 end

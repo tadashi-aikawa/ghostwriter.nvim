@@ -5,6 +5,9 @@ local defaults = {
 		{ mark = "x", emoji = "large_green_circle" },
 		{ mark = " ", emoji = "white_circle" },
 	},
+	bullet = {
+		emoji = "small_blue_diamond",
+	},
 	indent = {
 		ratio = 1,
 	},

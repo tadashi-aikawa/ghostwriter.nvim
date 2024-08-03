@@ -29,6 +29,9 @@ return {
         { mark = "x", emoji = "large_green_circle" },
         { mark = " ", emoji = "white_circle" },
       },
+	  bullet = {
+		emoji = "small_blue_diamond",
+	  },
       indent = {
         ratio = 1,
       },
@@ -87,6 +90,9 @@ ex:
         { mark = "_", emoji = "rip" },
         { mark = " ", emoji = "circle-success" },
       },
+	  bullet = {
+		emoji = "dot",
+	  },
       indent = {
         ratio = 2,
       },
