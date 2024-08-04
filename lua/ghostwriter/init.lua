@@ -68,7 +68,6 @@ function M.post_current_buf()
 			end
 		end
 
-		vim.notify(contents)
 		local res2 = slack.post_message(channel_id, contents)
 		if not res2.ok then
 			error(debug.print_table(res2))
