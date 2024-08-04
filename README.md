@@ -9,6 +9,10 @@
 > [!IMPORTANT]
 > This plugin is newly created and its specifications are likely to change soon, so please use it with that in mind.
 
+## Support Neovim version
+
+0.10 or higher
+
 ## Installation
 
 ### lazy.nvim
@@ -25,6 +29,7 @@ return {
   config = function()
     -- Default options
     require("ghostwriter").setup({
+      autosave = false,
       check = {
         { mark = "x", emoji = "large_green_circle" },
         { mark = " ", emoji = "white_circle" },
@@ -104,20 +109,25 @@ This line and below are excluded.
 
 ## Configration
 
-ex:
+See [Installation] section for default settings.
 
 ```lua
   config = function()
     require("ghostwriter").setup({
+      -- If true, the buffer will be automatically saved when the post is successful
+      autosave = true,
+      -- Defines the checkboxes converted to emojis in Slack notification messages
       check = {
         { mark = "~", emoji = "loading" },
         { mark = "x", emoji = "ok_green" },
         { mark = "_", emoji = "rip" },
         { mark = " ", emoji = "circle-success" },
       },
+      -- Specifies the emoji that bullets are converted to in Slack notification messages
       bullet = {
         emoji = "dot",
       },
+      -- Specifies how many times the Markdown indentation is multiplied in Slack notification messages
       indent = {
         ratio = 2,
       },
@@ -125,9 +135,10 @@ ex:
   end,
 ```
 
-> [!NOTE]
-> TODO: description
+## Recommended plugins to use together
 
+- [MeanderingProgrammer/markdown.nvim](https://github.com/MeanderingProgrammer/markdown.nvim)
+- [roodolv/markdown-toggle.nvim](https://github.com/roodolv/markdown-toggle.nvim)
 
 [chat:write]: https://api.slack.com/scopes/chat:write
-
+[Installation]: #installation

@@ -11,6 +11,7 @@ local defaults = {
 	indent = {
 		ratio = 1,
 	},
+	autosave = false,
 }
 
 M.options = {}

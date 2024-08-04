@@ -75,6 +75,11 @@ function M.post_current_buf()
 		async.terminate()
 
 		vim.api.nvim_buf_set_lines(cbuf, 0, 1, false, { res2.channel .. "," .. res2.ts })
+
+		if config.options.autosave then
+			vim.cmd("write")
+		end
+
 		vim.notify("👻 Post success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
 	end)()
 end
