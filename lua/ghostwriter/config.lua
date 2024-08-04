@@ -1,6 +1,7 @@
 local M = {}
 
 local defaults = {
+	autosave = true,
 	check = {
 		{ mark = "x", emoji = "large_green_circle" },
 		{ mark = " ", emoji = "white_circle" },
@@ -9,12 +10,11 @@ local defaults = {
 		emoji = "small_blue_diamond",
 	},
 	indent = {
-		ratio = 1,
+		ratio = 2,
 	},
 	header = {
 		before_blank_lines = 1,
 	},
-	autosave = false,
 }
 
 M.options = {}

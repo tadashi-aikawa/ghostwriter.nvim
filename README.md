@@ -27,22 +27,8 @@ return {
     { "<C-j>m", ":Ghostwrite<CR>", silent = true },
   },
   config = function()
-    -- Default options
     require("ghostwriter").setup({
-      autosave = false,
-      check = {
-        { mark = "x", emoji = "large_green_circle" },
-        { mark = " ", emoji = "white_circle" },
-      },
-      bullet = {
-        emoji = "small_blue_diamond",
-      },
-      header = {
-        before_blank_lines = 1,
-      },
-      indent = {
-        ratio = 1,
-      },
+      -- Set options
     })
   end,
 }
@@ -112,31 +98,28 @@ This line and below are excluded.
 
 ## Configration
 
-See [Installation] section for default settings.
-
 ```lua
   config = function()
+    -- Default configration
     require("ghostwriter").setup({
       -- If true, the buffer will be automatically saved when the post is successful
       autosave = true,
       -- Defines the checkboxes converted to emojis in Slack notification messages
       check = {
-        { mark = "~", emoji = "loading" },
-        { mark = "x", emoji = "ok_green" },
-        { mark = "_", emoji = "rip" },
-        { mark = " ", emoji = "circle-success" },
+        { mark = "x", emoji = "large_green_circle" },
+        { mark = " ", emoji = "white_circle" },
       },
       bullet = {
         -- The emoji that bullets are converted to in Slack notification messages
-        emoji = "dot",
-      },
-      header = {
-        -- Number of visual line breaks before headers
-        before_blank_lines = 1,
+        emoji = "small_blue_diamond",
       },
       indent = {
         -- How many times the Markdown indentation is multiplied in Slack notification messages
         ratio = 2,
+      },
+      header = {
+        -- Number of visual line breaks before headers
+        before_blank_lines = 1,
       },
     })
   end,
@@ -148,4 +131,3 @@ See [Installation] section for default settings.
 - [roodolv/markdown-toggle.nvim](https://github.com/roodolv/markdown-toggle.nvim)
 
 [chat:write]: https://api.slack.com/scopes/chat:write
-[Installation]: #installation
