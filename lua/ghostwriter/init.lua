@@ -1,7 +1,6 @@
 local async = require("ghostwriter.utils.async")
 local strings = require("ghostwriter.utils.strings")
 local collections = require("ghostwriter.utils.collections")
-local functions = require("ghostwriter.utils.functions")
 local debug = require("ghostwriter.utils.debug")
 
 local config = require("ghostwriter.config")
@@ -23,8 +22,10 @@ end
 local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
 	r_line = strings.replace(r_line, "(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ":%2")
-	r_line = functions.pipe(r_line, strings.convert_header, strings.convert_link)
-	return strings.scale_indent(r_line, config.options.indent.ratio)
+	r_line = strings.convert_header(r_line, config.options.header.before_blank_lines)
+	r_line = strings.convert_link(r_line)
+	r_line = strings.scale_indent(r_line, config.options.indent.ratio)
+	return r_line
 end
 
 function M.post_current_buf()
@@ -67,6 +68,7 @@ function M.post_current_buf()
 			end
 		end
 
+		vim.notify(contents)
 		local res2 = slack.post_message(channel_id, contents)
 		if not res2.ok then
 			error(debug.print_table(res2))

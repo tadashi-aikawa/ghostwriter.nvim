@@ -37,6 +37,9 @@ return {
       bullet = {
         emoji = "small_blue_diamond",
       },
+      header = {
+        before_blank_lines = 1,
+      },
       indent = {
         ratio = 1,
       },
@@ -123,12 +126,16 @@ See [Installation] section for default settings.
         { mark = "_", emoji = "rip" },
         { mark = " ", emoji = "circle-success" },
       },
-      -- Specifies the emoji that bullets are converted to in Slack notification messages
       bullet = {
+        -- The emoji that bullets are converted to in Slack notification messages
         emoji = "dot",
       },
-      -- Specifies how many times the Markdown indentation is multiplied in Slack notification messages
+      header = {
+        -- Number of visual line breaks before headers
+        before_blank_lines = 1,
+      },
       indent = {
+        -- How many times the Markdown indentation is multiplied in Slack notification messages
         ratio = 2,
       },
     })

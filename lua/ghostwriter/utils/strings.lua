@@ -15,7 +15,11 @@ end
 ---@param ratio number
 ---@return string
 function M.scale_indent(line, ratio)
-	local leading_spaces = line:match("^%s*")
+	local leading_spaces = line:match("^ +")
+	if leading_spaces == nil then
+		return line
+	end
+
 	local spaces = string.rep(leading_spaces, ratio)
 	return spaces .. line:sub(#leading_spaces + 1)
 end
@@ -29,9 +33,11 @@ end
 
 ---MarkdownヘッダをSlackの表現に変換する
 ---@param input string
+---@param before_blank_lines? number
 ---@return string
-function M.convert_header(input)
-	return M.replace(input, "^#+ (.+)", "*%1*")
+function M.convert_header(input, before_blank_lines)
+	local blank_lines = string.rep("\n", before_blank_lines or 0)
+	return M.replace(input, "^#+ (.+)", blank_lines .. "*%1*")
 end
 
 ---正規表現用にエスケープする

@@ -11,6 +11,9 @@ local defaults = {
 	indent = {
 		ratio = 1,
 	},
+	header = {
+		before_blank_lines = 1,
+	},
 	autosave = false,
 }
 
