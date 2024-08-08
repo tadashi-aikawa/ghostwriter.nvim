@@ -4,8 +4,8 @@ local M = {}
 
 ---@return string | nil
 local function get_token()
-	---@diagnostic disable-next-line: undefined-field
-	return vim.loop.os_getenv("GHOSTWRITER_SLACK_TOKEN")
+	---@diagnostic disable-next-line: missing-parameter
+	return vim.uv.os_getenv("GHOSTWRITER_SLACK_TOKEN")
 end
 
 ---@async
