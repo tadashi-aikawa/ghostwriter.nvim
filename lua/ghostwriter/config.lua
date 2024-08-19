@@ -15,6 +15,9 @@ local defaults = {
 	header = {
 		before_blank_lines = 1,
 	},
+	link = {
+		disabled = false,
+	},
 }
 
 M.options = {}

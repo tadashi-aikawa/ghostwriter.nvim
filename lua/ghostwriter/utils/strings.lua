@@ -26,9 +26,14 @@ end
 
 ---MarkdownリンクをSlackの表現に変換する
 ---@param input string
+---@param link {disabled: boolean}
 ---@return string
-function M.convert_link(input)
-	return M.replace(input, "%[([^%]]+)%]%(([^%)]+)%)", "<%2|%1>")
+function M.convert_link(input, link)
+	if link.disabled then
+		return M.replace(input, "%[([^%]]+)%]%(([^%)]+)%)", "%1")
+	else
+		return M.replace(input, "%[([^%]]+)%]%(([^%)]+)%)", "<%2|%1>")
+	end
 end
 
 ---MarkdownヘッダをSlackの表現に変換する

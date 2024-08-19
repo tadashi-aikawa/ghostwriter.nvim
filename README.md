@@ -121,6 +121,10 @@ This line and below are excluded.
         -- Number of visual line breaks before headers
         before_blank_lines = 1,
       },
+      link = {
+        -- Convert Markdown links to plaintext (ex: [hoge](http://hoge) -> hoge) 
+        disabled = false,
+      },
     })
   end,
 ```
