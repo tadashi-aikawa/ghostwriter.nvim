@@ -24,6 +24,17 @@ function M.scale_indent(line, ratio)
 	return spaces .. line:sub(#leading_spaces + 1)
 end
 
+--- [[wiki link]]を除去する
+---@param input string
+---@return string
+function M.trim_wikilink(input)
+	-- [[wikilink]]は予め除外. 完璧ではないがほとんどのケースはカバーできる簡易実装
+	local r = input
+	r = M.replace(r, "%[%[", "")
+	r = M.replace(r, "%]%]", "")
+	return r
+end
+
 ---MarkdownリンクをSlackの表現に変換する
 ---@param input string
 ---@param link {disabled: boolean}

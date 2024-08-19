@@ -23,6 +23,7 @@ local function transform_line(line)
 	local r_line = collections.reduce(config.options.check, transform_by_check, line)
 	r_line = strings.replace(r_line, "^(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ": %2")
 	r_line = strings.convert_header(r_line, config.options.header.before_blank_lines)
+	r_line = strings.trim_wikilink(r_line)
 	r_line = strings.convert_link(r_line, config.options.link)
 	r_line = strings.scale_indent(r_line, config.options.indent.ratio)
 	return r_line
