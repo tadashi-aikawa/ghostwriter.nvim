@@ -18,9 +18,17 @@ local function transform_by_check(line, check)
 end
 
 ---@param line string
+---@param replacer {pattern: string, replaced: string}
+---@return string
+local function replace_regexp(line, replacer)
+	return strings.replace(line, replacer.pattern, replacer.replaced)
+end
+
+---@param line string
 ---@return string
 local function transform_line(line)
-	local r_line = collections.reduce(config.options.check, transform_by_check, line)
+	local r_line = collections.reduce(config.options.replacers, replace_regexp, line)
+	r_line = collections.reduce(config.options.check, transform_by_check, r_line)
 	r_line = strings.replace(r_line, "^(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ": %2")
 	r_line = strings.convert_header(r_line, config.options.header.before_blank_lines)
 	r_line = strings.trim_wikilink(r_line)

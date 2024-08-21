@@ -18,6 +18,7 @@ local defaults = {
 	link = {
 		disabled = false,
 	},
+	replacers = {},
 }
 
 M.options = {}

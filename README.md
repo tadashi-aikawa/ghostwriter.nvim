@@ -104,6 +104,11 @@ This line and below are excluded.
     require("ghostwriter").setup({
       -- If true, the buffer will be automatically saved when the post is successful
       autosave = true,
+      -- Defines the replacers in Slack notification messages
+      replacers = {
+        { pattern = "202%d+_", replaced = " " },
+        { pattern = " %d%d:%d%d ", replaced = " " },
+      },
       -- Defines the checkboxes converted to emojis in Slack notification messages
       check = {
         { mark = "x", emoji = "large_green_circle" },
