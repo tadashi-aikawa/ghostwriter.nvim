@@ -50,7 +50,7 @@ You should create a "Slack user token" with the [chat:write] scope and set it to
 4. Execute the `Ghostwrite` command
 5. Let's check the relevant Slack channel! 👻
 
-Ex (a): Delete the relevant message and repost it in the channel as a new message.
+Ex a: Delete the relevant message and repost it in the channel as a new message.
 
 ```markdown
 https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
@@ -62,7 +62,7 @@ https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
 - [ ] task3
 ```
 
-Ex (b): Post a new message in the channel.
+Ex b: Post a new message in the channel.
 
 ```markdown
 https://app.slack.com/client/TKY180702/C2J10C5MF
@@ -74,7 +74,7 @@ https://app.slack.com/client/TKY180702/C2J10C5MF
 - [ ] task3
 ```
 
-Ex (c): Delete the relevant message and repost it in the channel as a new message.
+Ex c: Delete the relevant message and repost it in the channel as a new message.
 
 ```markdown
 C2J10C5MF,1722347931.398509
@@ -86,7 +86,7 @@ C2J10C5MF,1722347931.398509
 - [ ] task3
 ```
 
-Ex (d): Post a new message in the channel.
+Ex d: Post a new message in the channel.
 
 ```markdown
 C2J10C5MF
