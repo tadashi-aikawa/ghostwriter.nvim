@@ -4,10 +4,8 @@
     <p>
     <div>A Neovim plugin to share Markdown task lists as Slack posts.</div>
     </p>
+    <a href="https://github.com/tadashi-aikawa/ghostwriter.nvim/releases/latest"><img src="https://img.shields.io/github/release/tadashi-aikawa/ghostwriter.nvim.svg" /></a>
 </div>
-
-> [!IMPORTANT]
-> This plugin is newly created and its specifications are likely to change soon, so please use it with that in mind.
 
 ## Support Neovim version
 
@@ -151,6 +149,9 @@ This line and below are excluded.
 
 > [!WARNING]
 > If the body exceeds **4000** characters, an error will occur. Please keep each post under **4000** characters.
+
+> [!IMPORTANT]
+> This plugin is newly created and its specifications are likely to change soon, so please use it with that in mind.
 
 ## Recommended plugins to use together
 
