@@ -147,6 +147,11 @@ This line and below are excluded.
   end,
 ```
 
+## Restrictions
+
+> [!WARNING]
+> If the body exceeds **4000** characters, an error will occur. Please keep each post under **4000** characters.
+
 ## Recommended plugins to use together
 
 - [MeanderingProgrammer/markdown.nvim](https://github.com/MeanderingProgrammer/markdown.nvim)

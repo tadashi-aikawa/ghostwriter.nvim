@@ -64,6 +64,13 @@ function M.post_current_buf()
 	end
 
 	local contents = table.concat(body_lines, "\n")
+	if #contents >= 4000 then
+		local error_msg =
+			string.format("The message cannot be posted if it exceeds 4000 characters (%d characters)", #contents)
+		vim.notify(error_msg, 4)
+		return
+	end
+
 	local channel_id, ts = slack.pick_channel_and_ts(dst)
 
 	---@async
