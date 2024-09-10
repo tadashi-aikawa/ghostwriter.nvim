@@ -22,7 +22,10 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
+    -- Notify the first section of the current buffer to Slack
     { "<C-j>m", ":Ghostwrite<CR>", silent = true },
+    -- Copy the selected range in visual mode to the clipboard as Slack post format
+    { "<C-j>y", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
   },
   config = function()
     require("ghostwriter").setup({
