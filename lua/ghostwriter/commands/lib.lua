@@ -32,11 +32,13 @@ function M.normalize_to_slack_message(markdown_text, opts)
 	for _, line in ipairs(lines) do
 		if line:match("^```") then
 			-- 言語は消す.終わりも引っかかるけどそこは無視
-			table.insert(body_lines, "```")
+			line = "```"
 			in_code_block = not in_code_block
 		end
 
-		if not in_code_block then
+		if in_code_block then
+			table.insert(body_lines, line)
+		else
 			table.insert(body_lines, transform_line(line, opts))
 		end
 	end
