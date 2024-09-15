@@ -34,7 +34,7 @@ function M.exec()
 
 	---@async
 	async.void(function()
-		local notifier = vim.notify("⏳ Posting...", vim.log.levels.INFO, { timeout = nil })
+		local notifier = vim.notify("⏳ Writing ...", vim.log.levels.INFO, { timeout = nil })
 
 		if ts then
 			local res1 = slack.delete_message(channel_id, ts)
@@ -56,7 +56,7 @@ function M.exec()
 			vim.cmd("write")
 		end
 
-		vim.notify("👻 Post success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
+		vim.notify("👻 Write success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
 	end)()
 end
 

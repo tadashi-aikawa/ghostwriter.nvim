@@ -23,7 +23,7 @@ return {
   },
   keys = {
     -- Notify the first section of the current buffer to Slack
-    { "<C-j>m", ":GhostwriterPost<CR>", silent = true },
+    { "<C-j>m", ":GhostwriterWriter<CR>", silent = true },
     -- Copy the selected range in visual mode to the clipboard as Slack post format
     { "<C-j>y", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
   },
@@ -48,7 +48,7 @@ You should create a "Slack user token" with the [chat:write] scope and set it to
     c. the channel ID and ts separated by a comma
     d. the channel ID
 3. List the tasks from the **third** line onwards
-4. Execute the `GhostwriterPost` command
+4. Execute the `GhostwriterWriter` command
 5. Let's check the relevant Slack channel! 👻
 
 Ex a: Delete the relevant message and repost it in the channel as a new message.
