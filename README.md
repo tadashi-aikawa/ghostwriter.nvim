@@ -24,6 +24,8 @@ return {
   keys = {
     -- Notify the first section of the current buffer to Slack
     { "<C-j>m", ":GhostwriterWriter<CR>", silent = true },
+    -- Notify the selected range in visual mode to a specified Slack channel (named by configuration, ex: times)
+    { "<C-j>p", ":GhostwriterPost times<CR>", mode = { "v" }, silent = true },
     -- Copy the selected range in visual mode to the clipboard as Slack post format
     { "<C-j>y", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
   },
@@ -143,6 +145,11 @@ This line and below are excluded.
       link = {
         -- Convert Markdown links to plaintext (ex: [hoge](http://hoge) -> hoge) 
         disabled = false,
+      },
+      -- Mapping of channel names and channel IDs specified by command arguments
+      channel = {
+        { name = "times", id = "C1C5MJ80F" },
+        { name = "task", id = "C06JRG10V2L" },
       },
     })
   end,

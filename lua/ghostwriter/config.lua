@@ -3,24 +3,33 @@ local strings = require("ghostwriter.utils.strings")
 local M = {}
 
 local defaults = {
+	--- @type boolean
 	autosave = true,
+	--- @type {mark:string, emoji:string}[]
 	check = {
 		{ mark = "x", emoji = "large_green_circle" },
 		{ mark = " ", emoji = "white_circle" },
 	},
+	--- @type {emoji:string}
 	bullet = {
 		emoji = "small_blue_diamond",
 	},
+	--- @type {ratio:integer}
 	indent = {
 		ratio = 2,
 	},
+	--- @type {before_blank_lines:integer}
 	header = {
 		before_blank_lines = 1,
 	},
+	--- @type {disabled:boolean}
 	link = {
 		disabled = false,
 	},
+	--- @type {pattern:string, replaced:string}[]
 	replacers = {},
+	--- @type {name:string, id:string}[]
+	channel = {},
 }
 
 M.options = {}
