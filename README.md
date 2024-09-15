@@ -161,4 +161,12 @@ This line and below are excluded.
 - [MeanderingProgrammer/markdown.nvim](https://github.com/MeanderingProgrammer/markdown.nvim)
 - [roodolv/markdown-toggle.nvim](https://github.com/roodolv/markdown-toggle.nvim)
 
+## For developers
+
+### Setup
+
+```bash
+git config core.hooksPath hooks
+```
+
 [chat:write]: https://api.slack.com/scopes/chat:write
