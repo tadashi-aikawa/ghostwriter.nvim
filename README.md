@@ -176,4 +176,8 @@ This line and below are excluded.
 git config core.hooksPath hooks
 ```
 
+### Release
+
+Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/workflows/release.yaml) manually.
+
 [chat:write]: https://api.slack.com/scopes/chat:write
