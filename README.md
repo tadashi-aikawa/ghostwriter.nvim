@@ -22,11 +22,8 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
-    -- Notify the first section of the current buffer to Slack
-    { "<C-j>m", ":GhostwriterWriter<CR>", silent = true },
-    -- Notify the selected range in visual mode to a specified Slack channel (named by configuration, ex: times)
+    { "<C-j>m", ":GhostwriterWrite<CR>", silent = true },
     { "<C-j>p", ":GhostwriterPost times<CR>", mode = { "v" }, silent = true },
-    -- Copy the selected range in visual mode to the clipboard as Slack post format
     { "<C-j>y", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
   },
   config = function()
@@ -50,7 +47,7 @@ You should create a "Slack user token" with the [chat:write] scope and set it to
     c. the channel ID and ts separated by a comma
     d. the channel ID
 3. List the tasks from the **third** line onwards
-4. Execute the `GhostwriterWriter` command
+4. Execute the `GhostwriterWrite` command
 5. Let's check the relevant Slack channel! 👻
 
 Ex a: Delete the relevant message and repost it in the channel as a new message.
@@ -111,6 +108,46 @@ This line and below are excluded.
 - hoge
 
 ```
+
+## Commands
+
+### GhostwriterWrite
+
+Notify the first section of the current buffer to Slack.
+
+```
+GhostwriterWrite
+```
+
+### GhostwriterPost
+
+Notify the selected range in visual mode to a specified Slack channel.
+
+```
+GhostwriterPost <channel_mapping_name> [header]
+```
+
+| Parameter            | Required | Description                                                                                                                                     |
+|----------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| channel_mapping_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
+| header               | false    | Header message to be added before the selected text.                                                                                            |
+
+#### Examples
+
+```
+GhostwriterPost times
+GhostwriterPost times I like *Neovim!!!*
+GhostwriterPost task walking
+```
+
+### GhostwriterCopy
+
+Copy the selected range in visual mode to the clipboard as Slack post format
+
+```
+GhostwriterCopy
+```
+
 
 ## Configration
 

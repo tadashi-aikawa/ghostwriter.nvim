@@ -12,12 +12,17 @@ function M.setup(opts)
 	vim.api.nvim_create_user_command("GhostwriterCopy", copy.exec, { nargs = 0, range = true })
 
 	vim.api.nvim_create_user_command("GhostwriterPost", post.exec, {
-		nargs = 1,
+		nargs = "+",
 		range = true,
-		complete = function()
-			return collections.map(config.options.channel, function(ch)
-				return ch.name
-			end)
+		complete = function(_, CmdLine, _)
+			local args = vim.split(CmdLine, "%s+")
+			if #args == 2 then
+				return collections.map(config.options.channel, function(ch)
+					return ch.name
+				end)
+			end
+
+			return {}
 		end,
 	})
 end

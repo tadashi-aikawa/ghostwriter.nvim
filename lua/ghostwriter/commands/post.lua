@@ -8,11 +8,16 @@ local collections = require("ghostwriter.utils.collections")
 
 local M = {}
 
----@param opts {fargs: [string]}
+---@param opts {fargs: [string, string?]}
 function M.exec(opts)
 	local chname = opts.fargs[1]
+	local header = table.concat(vim.list_slice(opts.fargs, 2), " ")
 
 	local text = editor.get_visual_selection()
+	if header then
+		text = header .. "\n\n" .. text
+	end
+
 	local message = lib.normalize_to_slack_message(text, { skip_convert_link = true })
 	if #message >= 4000 then
 		local error_msg =
