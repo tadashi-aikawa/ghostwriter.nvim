@@ -22,7 +22,7 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
-    { "<C-j>m", ":GhostwriterWrite<CR>", silent = true },
+    { "<C-j>w", ":GhostwriterWrite<CR>", silent = true },
     { "<C-j>p", ":GhostwriterPost times<CR>", mode = { "v" }, silent = true },
     { "<C-j>y", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
   },
