@@ -124,13 +124,13 @@ GhostwriterWrite
 Notify the selected range in visual mode to a specified Slack channel.
 
 ```
-GhostwriterPost <channel_mapping_name> [header]
+GhostwriterPost <channel_name> [header]
 ```
 
-| Parameter            | Required | Description                                                                                                                                     |
-|----------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| channel_mapping_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
-| header               | false    | Header message to be added before the selected text.                                                                                            |
+| Parameter    | Required | Description                                                                                                                                     |
+|--------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| channel_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
+| header       | false    | Header message to be added before the selected text.                                                                                            |
 
 #### Examples
 
