@@ -11,6 +11,6 @@ jobs:
       - run: npm i -D --no-save conventional-changelog-conventionalcommits
       - uses: cycjimmy/semantic-release-action@v4
         with:
-          semantic_version: 24.1.1
+          semantic_version: 24.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
