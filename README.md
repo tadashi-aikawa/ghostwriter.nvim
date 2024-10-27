@@ -213,8 +213,31 @@ GhostwriterCopy
 git config core.hooksPath hooks
 ```
 
+### Test
+
+#### Requirements
+
+- [vusted]
+  - Lua v5.1
+- [mise] (`Optional` If using watch mode)
+
+#### Run tests
+
+```bash
+vusted lua
+```
+
+#### With watch mode
+
+```bash
+mise watch -t test
+```
+
 ### Release
 
 Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/workflows/release.yaml) manually.
 
 [chat:write]: https://api.slack.com/scopes/chat:write
+[vusted]: https://github.com/notomo/vusted
+[mise]: https://github.com/jdx/mise/tree/main
+
