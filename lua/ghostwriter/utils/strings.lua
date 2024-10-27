@@ -40,11 +40,27 @@ end
 ---@param link {disabled: boolean}
 ---@return string
 function M.convert_link(input, link)
+	local v = input
+
+	v = M.replace(v, "\\%]", "__BRACKET_CLOSE__")
+	v = M.replace(v, "\\%[", "__BRACKET_OPEN__")
+	v = M.replace(v, "\\%)", "__PARENTHESES_CLOSE__")
+	v = M.replace(v, "\\%(", "__PARENTHESES_OPEN__")
+	v = M.replace(v, "\\%-", "__HYPHEN__")
+
 	if link.disabled then
-		return M.replace(input, "%[([^%]]+)%]%(([^%)]+)%)", "%1")
+		v = M.replace(v, "%[([^%]]+)%]%(([^%)]+)%)", "%1")
 	else
-		return M.replace(input, "%[([^%]]+)%]%(([^%)]+)%)", "<%2|%1>")
+		v = M.replace(v, "%[([^%]]+)%]%(([^%)]+)%)", "<%2|%1>")
 	end
+
+	v = M.replace(v, "__BRACKET_CLOSE__", "]")
+	v = M.replace(v, "__BRACKET_OPEN__", "[")
+	v = M.replace(v, "__PARENTHESES_CLOSE__", ")")
+	v = M.replace(v, "__PARENTHESES_OPEN__", "(")
+	v = M.replace(v, "__HYPHEN__", "-")
+
+	return v
 end
 
 ---MarkdownヘッダをSlackの表現に変換する
