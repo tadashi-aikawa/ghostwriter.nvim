@@ -29,10 +29,7 @@ end
 ---@return string
 function M.trim_wikilink(input)
 	-- [[wikilink]]は予め除外. 完璧ではないがほとんどのケースはカバーできる簡易実装
-	local r = input
-	r = M.replace(r, "%[%[", "")
-	r = M.replace(r, "%]%]", "")
-	return r
+	return M.replace(input, "%[%[(.+)%]%]", "%1")
 end
 
 ---MarkdownリンクをSlackの表現に変換する

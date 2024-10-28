@@ -4,6 +4,7 @@ local config = require("ghostwriter.config")
 
 local M = {}
 
+---行を変換する
 ---@param line string
 ---@param opts? {skip_convert_link?: boolean}
 ---@return string
@@ -15,6 +16,9 @@ local function transform_line(line, opts)
 	r_line = strings.trim_wikilink(r_line)
 	if not (opts and opts.skip_convert_link) then
 		r_line = strings.convert_link(r_line, config.options.link)
+	else
+		-- 雑過ぎる気はする..
+		r_line = strings.replace(r_line, "\\", "")
 	end
 	r_line = strings.scale_indent(r_line, config.options.indent.ratio)
 	return r_line
