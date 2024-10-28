@@ -18,7 +18,7 @@ function M.exec(opts)
 		text = header .. "\n\n" .. text
 	end
 
-	local message = lib.normalize_to_slack_message(text, { skip_convert_link = true })
+	local message = lib.normalize_to_slack_message(text)
 	if #message >= 4000 then
 		local error_msg =
 			string.format("The message cannot be posted if it exceeds 4000 characters (%d characters)", #message)
