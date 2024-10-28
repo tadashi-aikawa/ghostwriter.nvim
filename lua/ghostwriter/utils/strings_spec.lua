@@ -29,27 +29,27 @@ describe("strings.trim_wikilink", function()
 	end)
 end)
 
-describe("strings.convert_link", function()
+describe("strings.convert_markdown_link", function()
 	it("does not convert plain text", function()
-		assert.same("hogehoge", strings.convert_link("hogehoge", {}))
+		assert.same("hogehoge", strings.convert_markdown_link("hogehoge", {}))
 	end)
 	it("does not convert a URL", function()
-		assert.same("https://sample.com", strings.convert_link("https://sample.com", {}))
+		assert.same("https://sample.com", strings.convert_markdown_link("https://sample.com", {}))
 	end)
 	it("does not convert a Wiki link", function()
-		assert.same("[[hogehoge]]", strings.convert_link("[[hogehoge]]", {}))
+		assert.same("[[hogehoge]]", strings.convert_markdown_link("[[hogehoge]]", {}))
 	end)
 
 	describe("(link.disabled: false)", function()
 		it("converts a Markdown link to a Slack link", function()
-			assert.same("<https://title.com|title>", strings.convert_link("[title](https://title.com)", {}))
+			assert.same("<https://title.com|title>", strings.convert_markdown_link("[title](https://title.com)", {}))
 		end)
 		it(
 			"converts a Markdown link with square brackets, parentheses, or hyphens in the title to a Slack link",
 			function()
 				assert.same(
 					"<https://title.com|[title] desc - (note) - >",
-					strings.convert_link("[\\[title\\] desc \\- \\(note\\) \\- ](https://title.com)", {})
+					strings.convert_markdown_link("[\\[title\\] desc \\- \\(note\\) \\- ](https://title.com)", {})
 				)
 			end
 		)
@@ -57,14 +57,14 @@ describe("strings.convert_link", function()
 
 	describe("(link.disabled: true)", function()
 		it("converts a Markdown link to just its title", function()
-			assert.same("title", strings.convert_link("[title](https://title.com)", { disabled = true }))
+			assert.same("title", strings.convert_markdown_link("[title](https://title.com)", { disabled = true }))
 		end)
 		it(
 			"converts a Markdown link with square brackets, parentheses, or hyphens in the title to just its title",
 			function()
 				assert.same(
 					"[title] desc - (note) - ",
-					strings.convert_link(
+					strings.convert_markdown_link(
 						"[\\[title\\] desc \\- \\(note\\) \\- ](https://title.com)",
 						{ disabled = true }
 					)

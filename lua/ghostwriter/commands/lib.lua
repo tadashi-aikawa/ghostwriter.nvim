@@ -15,7 +15,7 @@ local function transform_line(line, opts)
 	r_line = strings.convert_header(r_line, config.options.header.before_blank_lines)
 	r_line = strings.trim_wikilink(r_line)
 	if not (opts and opts.skip_convert_link) then
-		r_line = strings.convert_link(r_line, config.options.link)
+		r_line = strings.convert_markdown_link(r_line, config.options.link)
 	else
 		-- 雑過ぎる気はする..
 		r_line = strings.replace(r_line, "\\", "")

@@ -36,7 +36,7 @@ end
 ---@param input string
 ---@param link {disabled: boolean}
 ---@return string
-function M.convert_link(input, link)
+function M.convert_markdown_link(input, link)
 	local v = input
 
 	v = M.replace(v, "\\%]", "__BRACKET_CLOSE__")
