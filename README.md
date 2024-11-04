@@ -165,6 +165,16 @@ Copy the selected range in visual mode to the clipboard as Slack post format
 GhostwriterCopy
 ```
 
+### GhostwriterInsertChannelID
+
+> [!IMPORTANT]
+> This command requires [telescope.nvim].
+
+Selects a channel from the list defined in the config file and inserts its channel ID into the buffer. This is useful for specifying a notification destination before executing the `GhostwriterWrite` command.
+
+```
+GhostwriterInsertChannelID
+```
 
 ## Configration
 
@@ -200,7 +210,7 @@ GhostwriterCopy
         -- Convert Markdown links to plaintext (ex: [hoge](http://hoge) -> hoge) 
         disabled = false,
       },
-      -- Mapping of channel names and channel IDs specified by command arguments
+      -- Mapping of channel names and channel IDs specified by command arguments or selections
       channel = {
         { name = "times", id = "C1C5MJ80F" },
         { name = "task", id = "C06JRG10V2L" },
@@ -257,4 +267,4 @@ Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/
 [chat:write]: https://api.slack.com/scopes/chat:write
 [vusted]: https://github.com/notomo/vusted
 [mise]: https://github.com/jdx/mise/tree/main
-
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim

@@ -2,6 +2,7 @@ local config = require("ghostwriter.config")
 local write = require("ghostwriter.commands.write")
 local post = require("ghostwriter.commands.post")
 local copy = require("ghostwriter.commands.copy")
+local insert_channel_id = require("ghostwriter.commands.insert_channel_id")
 local collections = require("ghostwriter.utils.collections")
 
 local M = {}
@@ -25,6 +26,8 @@ function M.setup(opts)
 			return {}
 		end,
 	})
+
+	vim.api.nvim_create_user_command("GhostwriterInsertChannelID", insert_channel_id.exec, { nargs = 0 })
 end
 
 return M
