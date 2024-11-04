@@ -59,7 +59,9 @@ function M.exec()
 		vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { res2.channel .. "," .. res2.ts })
 
 		if config.options.autosave then
-			vim.cmd("write")
+			vim.api.nvim_buf_call(cbuf, function()
+				vim.cmd("write")
+			end)
 		end
 
 		vim.notify("👻 Write success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
