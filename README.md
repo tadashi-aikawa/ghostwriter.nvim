@@ -113,10 +113,27 @@ This line and below are excluded.
 
 ### GhostwriterWrite
 
-Notify the first section of the current buffer to Slack.
+Notify the contents of the block at the **current cursor position** (the block separated by '---') to Slack.
 
 ```
 GhostwriterWrite
+```
+
+`Ex: blocks separated by "---"`
+```markdown
+C123456789
+
+First block
+
+---
+C234567890
+
+Second block
+
+---
+C345678901
+
+Last block
 ```
 
 ### GhostwriterPost

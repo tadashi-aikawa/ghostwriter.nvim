@@ -16,11 +16,17 @@ function M.exec()
 		return
 	end
 
+	local current_row_no = vim.api.nvim_win_get_cursor(0)[1]
+	local base_row_no = collections.find_last_index(vim.list_slice(lines, 1, current_row_no), function(line)
+		return line == "---"
+	end)
+	local start_row_no = base_row_no == nil and 1 or base_row_no + 1
+
 	-- ex: https://minerva.slack.com/archives/C1J80C5MF/p1722259290076499
-	local dst = lines[1]
+	local dst = lines[start_row_no]
 
 	-- "---"より前
-	local body_lines = collections.head_while({ unpack(lines, 3) }, "---")
+	local body_lines = collections.head_while(vim.list_slice(lines, start_row_no + 2), "---")
 
 	local contents = lib.normalize_to_slack_message(table.concat(body_lines, "\n"))
 	if #contents >= 4000 then
@@ -50,7 +56,7 @@ function M.exec()
 
 		async.terminate()
 
-		vim.api.nvim_buf_set_lines(cbuf, 0, 1, false, { res2.channel .. "," .. res2.ts })
+		vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { res2.channel .. "," .. res2.ts })
 
 		if config.options.autosave then
 			vim.cmd("write")

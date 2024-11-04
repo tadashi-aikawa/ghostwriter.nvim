@@ -12,6 +12,7 @@ function M.map(tbl, fn)
 	return result
 end
 
+--条件に一致する要素を返却する
 ---@generic T
 ---@param tbl T[]
 ---@param predicate fun(x: T): boolean
@@ -23,6 +24,35 @@ function M.find(tbl, predicate)
 		end
 	end
 	return nil
+end
+
+--条件に一致する最初の要素のindexを返却する
+---@generic T
+---@param tbl T[]
+---@param predicate fun(x: T): boolean
+---@return number | nil
+function M.find_index(tbl, predicate)
+	for i, item in ipairs(tbl) do
+		if predicate(item) then
+			return i
+		end
+	end
+	return nil
+end
+
+--条件に一致する最後の要素のindexを返却する
+---@generic T
+---@param tbl T[]
+---@param predicate fun(x: T): boolean
+---@return number | nil
+function M.find_last_index(tbl, predicate)
+	local ret = nil
+	for i, item in ipairs(tbl) do
+		if predicate(item) then
+			ret = i
+		end
+	end
+	return ret
 end
 
 ---@generic T, A
