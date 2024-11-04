@@ -24,6 +24,10 @@ function M.exec()
 
 	-- ex: https://minerva.slack.com/archives/C1J80C5MF/p1722259290076499
 	local dst = lines[start_row_no]
+	if #dst == 0 then
+		vim.notify("⛔ Slack destination information is missing...", vim.log.levels.ERROR, { timeout = 3000 })
+		return
+	end
 
 	-- "---"より前
 	local body_lines = collections.head_while(vim.list_slice(lines, start_row_no + 2), "---")
