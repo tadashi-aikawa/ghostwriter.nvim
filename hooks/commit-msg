@@ -32,10 +32,10 @@ function validateType() {
 # $1: scope
 function validateScope() {
   case $1 in
-  write | post | copy | "") ;;
+  write | post | copy | "recent-messages" | "") ;;
   *)
     echo "Invalid scope: $1"
-    echo ">> write | post | copy"
+    echo ">> write | post | copy | recent-messages"
     exit 1
     ;;
   esac

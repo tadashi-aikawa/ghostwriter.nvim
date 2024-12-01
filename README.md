@@ -36,7 +36,13 @@ return {
 
 ## Requirements
 
-You should create a "Slack user token" with the [chat:write] scope and set it to the `GHOSTWRITER_SLACK_TOKEN` environment variable.
+You should create a "Slack user token" with the following scopes and set it to the `GHOSTWRITER_SLACK_TOKEN` environment variable.
+
+- [chat:write]
+- [channels:history]
+- [groups:history]
+- [im:history]
+- [mpim:history]
 
 ## Quick start
 
@@ -176,6 +182,23 @@ Selects a channel from the list defined in the config file and inserts its chann
 GhostwriterInsertChannelID
 ```
 
+### GhostwriterRecentMessages
+
+> [!IMPORTANT]
+> This command requires [telescope.nvim].
+
+Select a channel from the list defined in the config file and display its latest messages using Telescope.nvim. Selecting an item inserts the message body at the current cursor position. It is useful for checking a channel's posting status before executing a posting command (ex: `GhostwriterPost`) or quickly reviewing Slack messages to write them into the current buffer.
+
+```
+GhostwriterRecentMessages <channel_name> <limit>
+```
+
+| Parameter    | Required | Description                                                                                                                                     |
+|--------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| channel_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
+| limit        | false    | The maximum number of messages to return (default: 20)                                                                                          |
+
+
 ## Configration
 
 ```lua
@@ -265,6 +288,10 @@ mise watch -t test
 Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/workflows/release.yaml) manually.
 
 [chat:write]: https://api.slack.com/scopes/chat:write
+[channels:history]: https://api.slack.com/scopes/channels:history
+[groups:history]: https://api.slack.com/scopes/groups:history
+[im:history]: https://api.slack.com/scopes/im:history
+[mpim:history]: https://api.slack.com/scopes/mpim:history
 [vusted]: https://github.com/notomo/vusted
 [mise]: https://github.com/jdx/mise/tree/main
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim

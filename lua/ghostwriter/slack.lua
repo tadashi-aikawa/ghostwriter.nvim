@@ -48,6 +48,23 @@ function M.delete_message(channel_id, ts)
 	return vim.json.decode(response.body)
 end
 
+---@async
+---@param channel_id string
+---@param limit number
+---@return {ok: boolean, messages: {text: string, ts: string}[]}
+function M.get_coversations_history(channel_id, limit)
+	local response = async.get({
+		url = "https://slack.com/api/conversations.history",
+		headers = {
+			["Content-Type"] = "application/json; charset=UTF-8",
+			["Authorization"] = "Bearer " .. get_token(),
+		},
+		query = { channel = channel_id, limit = limit },
+	})
+
+	return vim.json.decode(response.body)
+end
+
 ---@param dst string
 ---@return string channel_id, string | nil ts
 function M.pick_channel_and_ts(dst)

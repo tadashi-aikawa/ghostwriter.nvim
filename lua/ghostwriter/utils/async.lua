@@ -16,6 +16,12 @@ function M.terminate()
 	async.util.scheduler()
 end
 
+---@async
+---@param ms number
+function M.sleep(ms)
+	async.util.sleep(ms)
+end
+
 M.get = async.wrap(function(opts, callback)
 	opts.callback = callback
 	curl.get(opts)
