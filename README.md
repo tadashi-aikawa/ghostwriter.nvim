@@ -20,11 +20,18 @@ return {
   "tadashi-aikawa/ghostwriter.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope.nvim",
   },
   keys = {
     { "<C-j>w", ":GhostwriterWrite<CR>", silent = true },
-    { "<C-j>p", ":GhostwriterPost times<CR>", mode = { "v" }, silent = true },
+    { "<C-j>p", ":GhostwriterPost ", mode = { "v" } },
+    { "<C-j>m", ":GhostwriterRecentMessages " },
     { "<C-j>y", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
+    { "<C-j>S", ":GhostwriterInsertChannelID<CR>", silent = true },
+  },
+  cmd = {
+    "GhostwriterPost",
+    "GhostwriterRecentMessages",
   },
   config = function()
     require("ghostwriter").setup({
