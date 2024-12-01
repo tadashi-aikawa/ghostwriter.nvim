@@ -3,6 +3,7 @@ local slack = require("ghostwriter.slack")
 local debug = require("ghostwriter.utils.debug")
 local config = require("ghostwriter.config")
 local collections = require("ghostwriter.utils.collections")
+local lib = require("ghostwriter.commands.lib")
 
 local M = {}
 
@@ -37,9 +38,10 @@ function M.exec(opts)
 					results = res.messages,
 					--- @param entry {text:string, ts:string}
 					entry_maker = function(entry)
+						local normalized_text = lib.slack_text_to_markdown(entry.text)
 						return {
-							value = entry,
-							display = os.date("%Y-%m-%d %X", tonumber(entry.ts)) .. ": " .. entry.text,
+							value = normalized_text,
+							display = os.date("%Y-%m-%d %X", tonumber(entry.ts)) .. ": " .. normalized_text,
 							ordinal = entry.text,
 						}
 					end,
@@ -47,7 +49,7 @@ function M.exec(opts)
 				sorter = require("telescope.config").values.generic_sorter({}),
 				previewer = require("telescope.previewers").new_buffer_previewer({
 					define_preview = function(self, entry, status)
-						local lines = vim.split(entry.value.text, "\n")
+						local lines = vim.split(entry.value, "\n")
 						vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
 						vim.wo[self.state.winid].wrap = true
 					end,
@@ -56,9 +58,9 @@ function M.exec(opts)
 					local actions = require("telescope.actions")
 					actions.select_default:replace(function()
 						actions.close(prompt_bufnr)
-						--- @type {value: {text:string, ts:string}}
+						--- @type {value: string}
 						local selection = require("telescope.actions.state").get_selected_entry()
-						vim.api.nvim_put(vim.split(selection.value.text, "\n"), "", false, true)
+						vim.api.nvim_put(vim.split(selection.value, "\n"), "", false, true)
 					end)
 					return true
 				end,

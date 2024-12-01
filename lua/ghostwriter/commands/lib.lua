@@ -50,4 +50,29 @@ function M.normalize_to_slack_message(markdown_text, opts)
 	return table.concat(body_lines, "\n")
 end
 
+---Slackが返却するtextの表現をMarkdownに変換します
+---@param text string
+function M.slack_text_to_markdown(text)
+	local lines = vim.split(text, "\n")
+	local body_lines = {}
+
+	for _, line in ipairs(lines) do
+		-- Code blockの整形
+		-- ```\nhoge が ```hoge のように結合されてしまうのを端正
+		line = strings.replace(line, "^```(.+)", "```\n%1")
+		-- hoge\n``` が hoge``` のように結合されてしまうのを端正
+		line = strings.replace(line, "(.+)```$", "%1\n```")
+
+		-- リストの整形
+		line = strings.replace(line, "• ", "* ")
+
+		-- リンクの変換
+		line = strings.convert_slack_link(line)
+
+		table.insert(body_lines, line)
+	end
+
+	return table.concat(body_lines, "\n")
+end
+
 return M

@@ -81,4 +81,16 @@ function M.escape(str)
 	return str
 end
 
+---SlackリンクをMarkdownリンクの表現に変換する
+---@param input string
+---@return string
+function M.convert_slack_link(input)
+	local v = input
+
+	v = M.replace(v, "<(http[^|]+)|([^>]+)>", "[%2](%1)")
+	v = M.replace(v, "<(http[^>]+)>", "%1")
+
+	return v
+end
+
 return M
