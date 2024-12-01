@@ -1,35 +1,22 @@
 local config = require("ghostwriter.config")
+local collections = require("ghostwriter.utils.collections")
 
 local M = {}
 
-function M.exec()
-	require("telescope.pickers")
-		.new({}, {
-			prompt_title = "Choose channel name",
-			finder = require("telescope.finders").new_table({
-				results = config.options.channel,
-				--- @param entry {name:string, id:string}
-				entry_maker = function(entry)
-					return {
-						value = entry,
-						display = entry.name,
-						ordinal = entry.name,
-					}
-				end,
-			}),
-			sorter = require("telescope.config").values.generic_sorter({}),
-			attach_mappings = function(prompt_bufnr)
-				local actions = require("telescope.actions")
-				actions.select_default:replace(function()
-					actions.close(prompt_bufnr)
-					--- @type {value: {name:string, id:string}}
-					local selection = require("telescope.actions.state").get_selected_entry()
-					vim.api.nvim_put({ selection.value.id }, "", false, true)
-				end)
-				return true
-			end,
-		})
-		:find()
+---@param opts {fargs: [string]}
+function M.exec(opts)
+	local chname = opts.fargs[1]
+
+	local dst = collections.find(config.options.channel, function(x)
+		return x.name == chname
+	end)
+	if not dst then
+		local error_msg = string.format("'%s' is not defined in the configration -> channel[].name", chname)
+		vim.notify(error_msg, vim.log.levels.ERROR)
+		return
+	end
+
+	vim.api.nvim_put({ dst.id }, "", false, true)
 end
 
 return M

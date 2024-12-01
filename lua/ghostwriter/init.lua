@@ -31,7 +31,10 @@ function M.setup(opts)
 		complete = channel_name_completion,
 	})
 
-	vim.api.nvim_create_user_command("GhostwriterInsertChannelID", insert_channel_id.exec, { nargs = 0 })
+	vim.api.nvim_create_user_command("GhostwriterInsertChannelID", insert_channel_id.exec, {
+		nargs = "+",
+		complete = channel_name_completion,
+	})
 	vim.api.nvim_create_user_command("GhostwriterRecentMessages", recent_messages.exec, {
 		nargs = "+",
 		complete = channel_name_completion,
