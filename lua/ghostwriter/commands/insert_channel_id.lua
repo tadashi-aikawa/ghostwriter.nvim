@@ -1,6 +1,3 @@
-local editor = require("ghostwriter.utils.editor")
-local lib = require("ghostwriter.commands.lib")
-local collections = require("ghostwriter.utils.collections")
 local config = require("ghostwriter.config")
 
 local M = {}
