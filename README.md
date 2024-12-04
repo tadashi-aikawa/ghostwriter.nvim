@@ -33,11 +33,9 @@ return {
     "GhostwriterPost",
     "GhostwriterRecentMessages",
   },
-  config = function()
-    require("ghostwriter").setup({
-      -- Set options
-    })
-  end,
+  opts = {
+    -- Set options
+  }
 }
 ```
 
@@ -211,44 +209,43 @@ You can also post the entered query as a message to Slack by pressing Alt+Enter.
 ## Configration
 
 ```lua
-  config = function()
+  opts = {
     -- Default configration
-    require("ghostwriter").setup({
-      -- If true, the buffer will be automatically saved when the post is successful
-      autosave = true,
-      -- Defines the replacers in Slack notification messages
-      replacers = {
-        { pattern = "202%d+_", replaced = " " },
-        { pattern = " %d%d:%d%d ", replaced = " " },
-      },
-      -- Defines the checkboxes converted to emojis in Slack notification messages
-      check = {
-        { mark = "x", emoji = "large_green_circle" },
-        { mark = " ", emoji = "white_circle" },
-      },
-      bullet = {
-        -- The emoji that bullets are converted to in Slack notification messages
-        emoji = "small_blue_diamond",
-      },
-      indent = {
-        -- How many times the Markdown indentation is multiplied in Slack notification messages
-        ratio = 2,
-      },
-      header = {
-        -- Number of visual line breaks before headers
-        before_blank_lines = 1,
-      },
-      link = {
-        -- Convert Markdown links to plaintext (ex: [hoge](http://hoge) -> hoge) 
-        disabled = false,
-      },
-      -- Mapping of channel names and channel IDs specified by command arguments or selections
-      channel = {
-        { name = "times", id = "C1C5MJ80F" },
-        { name = "task", id = "C06JRG10V2L" },
-      },
-    })
-  end,
+
+    -- If true, the buffer will be automatically saved when the post is successful
+    autosave = true,
+    -- Defines the replacers in Slack notification messages
+    replacers = {
+      { pattern = "202%d+_", replaced = " " },
+      { pattern = " %d%d:%d%d ", replaced = " " },
+    },
+    -- Defines the checkboxes converted to emojis in Slack notification messages
+    check = {
+      { mark = "x", emoji = "large_green_circle" },
+      { mark = " ", emoji = "white_circle" },
+    },
+    bullet = {
+      -- The emoji that bullets are converted to in Slack notification messages
+      emoji = "small_blue_diamond",
+    },
+    indent = {
+      -- How many times the Markdown indentation is multiplied in Slack notification messages
+      ratio = 2,
+    },
+    header = {
+      -- Number of visual line breaks before headers
+      before_blank_lines = 1,
+    },
+    link = {
+      -- Convert Markdown links to plaintext (ex: [hoge](http://hoge) -> hoge) 
+      disabled = false,
+    },
+    -- Mapping of channel names and channel IDs specified by command arguments or selections
+    channel = {
+      { name = "times", id = "C1C5MJ80F" },
+      { name = "task", id = "C06JRG10V2L" },
+    },
+  }
 ```
 
 ## Restrictions
