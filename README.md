@@ -206,6 +206,7 @@ GhostwriterRecentMessages <channel_name> <limit>
 | channel_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
 | limit        | false    | The maximum number of messages to return (default: 20)                                                                                          |
 
+You can also post the entered query as a message to Slack by pressing Alt+Enter.
 
 ## Configration
 

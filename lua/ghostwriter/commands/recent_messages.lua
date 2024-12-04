@@ -54,7 +54,7 @@ function M.exec(opts)
 						vim.wo[self.state.winid].wrap = true
 					end,
 				}),
-				attach_mappings = function(prompt_bufnr)
+				attach_mappings = function(prompt_bufnr, map)
 					local actions = require("telescope.actions")
 					actions.select_default:replace(function()
 						actions.close(prompt_bufnr)
@@ -62,6 +62,25 @@ function M.exec(opts)
 						local selection = require("telescope.actions.state").get_selected_entry()
 						vim.api.nvim_put(vim.split(selection.value, "\n"), "", false, true)
 					end)
+
+					local action_state = require("telescope.actions.state")
+					map("i", "<M-CR>", function()
+						actions.close(prompt_bufnr)
+						local query = action_state.get_current_line()
+
+						---@async
+						async.void(function()
+							local notifier = vim.notify("⏳ Posting ...", vim.log.levels.INFO, { timeout = nil })
+							local post_res = slack.post_message(dst.id, query)
+							if not post_res.ok then
+								error(debug.print_table(post_res))
+							end
+
+							async.terminate()
+							vim.notify("👻 Post success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
+						end)()
+					end)
+
 					return true
 				end,
 			})
