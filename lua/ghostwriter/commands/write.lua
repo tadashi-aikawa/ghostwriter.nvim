@@ -4,6 +4,7 @@ local debug = require("ghostwriter.utils.debug")
 
 local config = require("ghostwriter.config")
 local slack = require("ghostwriter.slack")
+local slack_service = require("ghostwriter.domain.slack")
 local lib = require("ghostwriter.commands.lib")
 
 local M = {}
@@ -40,7 +41,7 @@ function M.exec()
 		return
 	end
 
-	local channel_id, ts = slack.pick_channel_and_ts(dst)
+	local channel_id, ts = slack_service.pick_channel_and_ts(dst)
 
 	---@async
 	async.void(function()
