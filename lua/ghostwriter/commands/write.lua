@@ -10,6 +10,14 @@ local lib = require("ghostwriter.commands.lib")
 
 local M = {}
 
+-- FIXME: refactoring
+local function is_file_buffer(buf)
+	local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+	local bufname = vim.api.nvim_buf_get_name(0)
+
+	return buftype == "" and bufname ~= ""
+end
+
 function M.exec()
 	local cbuf = vim.api.nvim_get_current_buf()
 
@@ -81,7 +89,7 @@ function M.exec()
 			vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { new_dst1 .. "," .. res2.ts })
 		end
 
-		if config.options.autosave then
+		if config.options.autosave and is_file_buffer(cbuf) then
 			vim.api.nvim_buf_call(cbuf, function()
 				vim.cmd("write")
 			end)
