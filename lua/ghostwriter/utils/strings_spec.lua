@@ -5,6 +5,19 @@ local it = it ---@diagnostic disable-line: undefined-global
 
 local strings = require("ghostwriter.utils.strings")
 
+describe("strings.starts_with", function()
+	it("returns true if str starts with", function()
+		assert.same(true, strings.starts_with("abc", "a"))
+		assert.same(true, strings.starts_with("abc", "ab"))
+		assert.same(true, strings.starts_with("abc", "abc"))
+	end)
+
+	it("returns false if str doesn't start with", function()
+		assert.same(false, strings.starts_with("abc", "b"))
+		assert.same(false, strings.starts_with("abc", "abcd"))
+	end)
+end)
+
 describe("strings.replace", function()
 	it("replaces RegExp", function()
 		assert.same("XXX", strings.replace("abc", "[a-z]", "X"))

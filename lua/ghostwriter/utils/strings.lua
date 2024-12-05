@@ -1,5 +1,9 @@
 local M = {}
 
+function M.starts_with(str, prefix)
+	return string.sub(str, 1, #prefix) == prefix
+end
+
 ---文字列を正規表現パターンで置換する
 ---@param str string
 ---@param pattern string

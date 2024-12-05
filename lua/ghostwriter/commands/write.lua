@@ -36,12 +36,16 @@ function M.exec()
 	local contents = lib.normalize_to_slack_message(table.concat(body_lines, "\n"))
 	if #contents >= 4000 then
 		local error_msg =
-			string.format("The message cannot be posted if it exceeds 4000 characters (%d characters)", #contents)
+			string.format("⛔ The message cannot be posted if it exceeds 4000 characters (%d characters)", #contents)
 		vim.notify(error_msg, 4)
 		return
 	end
 
-	local channel_id, ts = slack_service.pick_channel_and_ts(dst)
+	local channel_id, ts = slack_service.pick_channel_and_ts(dst, config.options.channel)
+	if channel_id == nil then
+		vim.notify("⛔ Slack destination information is invalid...", vim.log.levels.ERROR, { timeout = 3000 })
+		return
+	end
 
 	---@async
 	async.void(function()
@@ -61,7 +65,12 @@ function M.exec()
 
 		async.terminate()
 
-		vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { res2.channel .. "," .. res2.ts })
+		local channel = collections.find(config.options.channel, function(x)
+			return x.id == channel_id
+		end)
+		local new_dst1 = channel ~= nil and "@" .. channel.name or channel_id
+
+		vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { new_dst1 .. "," .. res2.ts })
 
 		if config.options.autosave then
 			vim.api.nvim_buf_call(cbuf, function()
@@ -69,7 +78,7 @@ function M.exec()
 			end)
 		end
 
-		vim.notify("👻 Write success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
+		vim.notify("👻 Write success to " .. new_dst1, vim.log.levels.INFO, { timeout = 1000, replace = notifier })
 	end)()
 end
 
