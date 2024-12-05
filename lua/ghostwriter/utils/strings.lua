@@ -1,7 +1,19 @@
 local M = {}
 
+---文字列が特定文字列で開始しているかを判定する
+---@param str string
+---@param prefix string
+---@return boolean
 function M.starts_with(str, prefix)
 	return string.sub(str, 1, #prefix) == prefix
+end
+
+---文字列が特定文字列で開始しているかを判定する
+---@param str string
+---@param suffix string
+---@return boolean
+function M.ends_with(str, suffix)
+	return str:sub(-#suffix) == suffix
 end
 
 ---文字列を正規表現パターンで置換する

@@ -1,6 +1,7 @@
 local async = require("ghostwriter.utils.async")
 local collections = require("ghostwriter.utils.collections")
 local debug = require("ghostwriter.utils.debug")
+local strings = require("ghostwriter.utils.strings")
 
 local config = require("ghostwriter.config")
 local slack = require("ghostwriter.slack")
@@ -41,6 +42,12 @@ function M.exec()
 		return
 	end
 
+	local keep_dst = false
+	if strings.ends_with(dst, "!") then
+		dst = dst:sub(1, -2)
+		keep_dst = true
+	end
+
 	local channel_id, ts = slack_service.pick_channel_and_ts(dst, config.options.channel)
 	if channel_id == nil then
 		vim.notify("⛔ Slack destination information is invalid...", vim.log.levels.ERROR, { timeout = 3000 })
@@ -70,7 +77,9 @@ function M.exec()
 		end)
 		local new_dst1 = channel ~= nil and "@" .. channel.name or channel_id
 
-		vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { new_dst1 .. "," .. res2.ts })
+		if not keep_dst then
+			vim.api.nvim_buf_set_lines(cbuf, start_row_no - 1, start_row_no, false, { new_dst1 .. "," .. res2.ts })
+		end
 
 		if config.options.autosave then
 			vim.api.nvim_buf_call(cbuf, function()
