@@ -11,11 +11,14 @@ local M = {}
 ---@param opts {fargs: [string, string?]}
 function M.exec(opts)
 	local chname = opts.fargs[1]
-	local header = table.concat(vim.list_slice(opts.fargs, 2), " ")
+	local mode = opts.fargs[2]
 
 	local text = editor.get_visual_selection()
-	if header then
-		text = header .. "\n\n" .. text
+	if mode == "code" then
+		text = "```\n" .. text .. "\n```"
+	elseif mode then
+		vim.notify("⛔ Invalid mode name: " .. mode, vim.log.levels.ERROR)
+		return
 	end
 
 	local message = lib.normalize_to_slack_message(text)

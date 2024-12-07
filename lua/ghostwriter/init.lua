@@ -8,18 +8,42 @@ local collections = require("ghostwriter.utils.collections")
 
 local M = {}
 
+--- @alias completion_type
+--- | '"channel_name"'
+--- | '"mode"'
+
 function M.setup(opts)
 	config.setup(opts)
 
-	local channel_name_completion = function(_, cmdline, _)
-		local args = vim.split(cmdline, "%s+")
-		if #args == 2 then
+	--- @type fun(completion_type: completion_type): string[]
+	local create_suggestions = function(complection_type)
+		if complection_type == "channel_name" then
 			return collections.map(config.options.channel, function(ch)
 				return ch.name
 			end)
 		end
+		if complection_type == "mode" then
+			return { "code" }
+		end
 
-		return {}
+		error("Invalid completion_type")
+	end
+
+	--- @type fun(completion_types: completion_type[]): function
+	local create_completion = function(completion_types)
+		return function(_, cmdline, _)
+			local args = vim.split(cmdline, "%s+")
+
+			if #args == 2 and completion_types[1] then
+				return create_suggestions(completion_types[1])
+			end
+
+			if #args == 3 and completion_types[2] then
+				return create_suggestions(completion_types[2])
+			end
+
+			return {}
+		end
 	end
 
 	vim.api.nvim_create_user_command("GhostwriterWrite", write.exec, { nargs = 0 })
@@ -28,16 +52,16 @@ function M.setup(opts)
 	vim.api.nvim_create_user_command("GhostwriterPost", post.exec, {
 		nargs = "+",
 		range = true,
-		complete = channel_name_completion,
+		complete = create_completion({ "channel_name", "mode" }),
 	})
 
 	vim.api.nvim_create_user_command("GhostwriterInsertChannelID", insert_channel_id.exec, {
 		nargs = "+",
-		complete = channel_name_completion,
+		complete = create_completion({ "channel_name" }),
 	})
 	vim.api.nvim_create_user_command("GhostwriterRecentMessages", recent_messages.exec, {
 		nargs = "+",
-		complete = channel_name_completion,
+		complete = create_completion({ "channel_name" }),
 	})
 end
 
