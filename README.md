@@ -152,7 +152,7 @@ Last block
 Notify the selected range in visual mode to a specified Slack channel.
 
 ```
-GhostwriterPost <channel_name> [header]
+GhostwriterPost <channel_name> [mode]
 ```
 
 | Parameter      | Required   | Description                                                                                                                                       |
@@ -204,6 +204,13 @@ GhostwriterRecentMessages <channel_name> <limit>
 | limit        | false    | The maximum number of messages to return (default: 20)                                                                                          |
 
 You can also post the entered query as a message to Slack by pressing Alt+Enter.
+
+#### Examples
+
+```
+GhostwriterRecentMessages times
+GhostwriterRecentMessages times 50
+```
 
 ## Configration
 
