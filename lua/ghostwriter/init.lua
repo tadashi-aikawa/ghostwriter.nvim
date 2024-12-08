@@ -2,7 +2,6 @@ local config = require("ghostwriter.config")
 local write = require("ghostwriter.commands.write")
 local post = require("ghostwriter.commands.post")
 local copy = require("ghostwriter.commands.copy")
-local insert_channel_id = require("ghostwriter.commands.insert_channel_id")
 local recent_messages = require("ghostwriter.commands.recent_messages")
 local collections = require("ghostwriter.utils.collections")
 
@@ -55,10 +54,6 @@ function M.setup(opts)
 		complete = create_completion({ "channel_name", "mode" }),
 	})
 
-	vim.api.nvim_create_user_command("GhostwriterInsertChannelID", insert_channel_id.exec, {
-		nargs = "+",
-		complete = create_completion({ "channel_name" }),
-	})
 	vim.api.nvim_create_user_command("GhostwriterRecentMessages", recent_messages.exec, {
 		nargs = "+",
 		complete = create_completion({ "channel_name" }),

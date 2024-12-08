@@ -27,7 +27,6 @@ return {
     { "gsp", ":GhostwriterPost ", mode = { "v" } },
     { "gsm", ":GhostwriterRecentMessages " },
     { "gsy", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
-    { "<C-j>S", ":GhostwriterInsertChannelID<CR>", silent = true },
   },
   cmd = {
     "GhostwriterPost",
@@ -174,18 +173,6 @@ Copy the selected range in visual mode to the clipboard as Slack post format
 ```
 GhostwriterCopy
 ```
-
-### GhostwriterInsertChannelID
-
-Selects a channel from the list defined in the config file and inserts its channel ID into the buffer. This is useful for specifying a notification destination before executing the `GhostwriterWrite` command.
-
-```
-GhostwriterInsertChannelID <channel_name>
-```
-
-| Parameter    | Required | Description                                                                                                                                     |
-|--------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| channel_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
 
 ### GhostwriterRecentMessages
 
