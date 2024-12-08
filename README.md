@@ -23,44 +23,105 @@ return {
     "nvim-telescope/telescope.nvim", -- Required for the GhostwriterRecentMessages command
   },
   keys = {
-    { "gsw", ":GhostwriterWrite<CR>", silent = true },
-    { "gsp", ":GhostwriterPost ", mode = { "v" } },
-    { "gsm", ":GhostwriterRecentMessages " },
-    { "gsy", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
-  },
-  cmd = {
-    "GhostwriterPost",
-    "GhostwriterRecentMessages",
-  },
+    -- Set hotkeys
+  }
   opts = {
     -- Set options
   }
 }
 ```
 
-## Requirements
+#### keys example
 
-You should create a "Slack user token" with the following scopes and set it to the `GHOSTWRITER_SLACK_TOKEN` environment variable.
+```lua
+  keys = {
+    { "gsw", ":GhostwriterWrite<CR>", silent = true },
+    { "gsp", ":GhostwriterPost ", mode = { "v" } },
+    { "gsm", ":GhostwriterRecentMessages " },
+    { "gsy", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
+  }
+```
 
-- [chat:write]
-- [channels:history]
-- [groups:history]
-- [im:history]
-- [mpim:history]
+## Create a slack token
 
-## Quick start
+You should create a [Slack user token](https://api.slack.com/concepts/token-types#user) with the following scopes and set it to the `GHOSTWRITER_SLACK_TOKEN` environment variable.
 
-1. Create a markdown file (ex: `task.md`)
-2. In the first line, write one of the following
-    a. the URL of the reference Slack post
-    b. the URL of the channel
-    c. the channel ID and ts separated by a comma
-    d. the channel ID
-3. List the tasks from the **third** line onwards
-4. Execute the `GhostwriterWrite` command
-5. Let's check the relevant Slack channel! 👻
+- **Required**
+    - [chat:write](https://api.slack.com/scopes/chat:write)
+- Optional (Used only for the `GhostwriterRecentMessages` command)
+    - [channels:history](https://api.slack.com/scopes/channels:history)
+    - [groups:history](https://api.slack.com/scopes/groups:history)
+    - [im:history](https://api.slack.com/scopes/im:history)
+    - [mpim:history](https://api.slack.com/scopes/mpim:history)
 
-Ex a: Delete the relevant message and repost it in the channel as a new message.
+## Key Terms
+
+### `channel_name`
+
+Note that the `channel_name` is **not the actual Slack channel name** but is specified in the config.
+
+For example, the `channel_name` specified in the following configuration is "times", but the actual channel name in Slack is `#times_tadashi-aikawa`.
+
+```lua
+  opts = {
+    channel = {
+      { name = "times", id = "C1J80C5MF" },
+    },
+  },
+```
+
+### `destination`
+
+In ghostwriter.nvim, the term **`destination`** refers to information that uniquely identifies a Slack channel or a post for posting. The list of supported destinations is as follows.
+
+| Description       | Target  | Sample value                                                   |
+| -                 | -       | -                                                              |
+| Slack post URL    | post    | https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499 |
+| Slack channel URL | channel | https://app.slack.com/client/TKY180702/C2J10C5MF               |
+| channel_id & ts   | post    | C2J10C5MF,1722347931.398509                                    |
+| channel_id        | channel | C2J10C5MF                                                      |
+| channel_name & ts | post    | @times,1722347931.398509                                       |
+| channel_name      | channel | @times                                                         |
+
+### `block`
+
+The sections separated by "---" are referred to as **`blocks`**.
+
+```markdown
+C123456789
+
+First block
+
+---
+@times
+
+Second block
+
+---
+https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
+
+Last block
+```
+
+The `destination` is specified on the first line of the block.
+
+## Commands
+
+### GhostwriterWrite
+
+Notify the contents of the **`block`** at the **current cursor position** to Slack.
+
+```
+GhostwriterWrite
+```
+
+When the command succeeds, the `destination` is **overwritten with the posted target**. This is because ghostwriter.nvim wants to share the progress, so it makes sense to remove outdated posts and post the latest message where everyone can see it.
+
+If you **do not** want to overwrite the `destination`, add `!` to the end of `channel_id` or `channel_name`. This is useful when using ghostwriter.nvim solely as a Slack posting client.
+
+#### ex: Write patterns
+
+##### *Delete* the relevant message and *repost* it in the channel *as a new message*
 
 ```markdown
 https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
@@ -72,7 +133,7 @@ https://minerva.slack.com/archives/C2J10C5MF/p1722259290076499
 - [ ] task3
 ```
 
-Ex b: Post a new message in the channel.
+##### Post a new message in the channel
 
 ```markdown
 https://app.slack.com/client/TKY180702/C2J10C5MF
@@ -84,10 +145,10 @@ https://app.slack.com/client/TKY180702/C2J10C5MF
 - [ ] task3
 ```
 
-Ex c: Delete the relevant message and repost it in the channel as a new message.
+##### *Delete* the relevant message and *repost* it in the channel (`channel_name` is `times`) *as a new message*
 
 ```markdown
-C2J10C5MF,1722347931.398509
+@times,1722347931.398509
 
 - [x] task1
 - [x] task2
@@ -96,10 +157,18 @@ C2J10C5MF,1722347931.398509
 - [ ] task3
 ```
 
-Ex d: Post a new message in the channel.
+##### Post a new message in the channel (`channel_name` is `times`) and don't rewrite the destination
 
 ```markdown
-C2J10C5MF
+@times!
+
+Hello!
+```
+
+##### Post a new message in the channel (`channel_name` is `times`)
+
+```markdown
+@times
 
 ## section1
 
@@ -119,33 +188,6 @@ This line and below are excluded.
 
 ```
 
-## Commands
-
-### GhostwriterWrite
-
-Notify the contents of the block at the **current cursor position** (the block separated by '---') to Slack.
-
-```
-GhostwriterWrite
-```
-
-`Ex: blocks separated by "---"`
-```markdown
-C123456789
-
-First block
-
----
-C234567890
-
-Second block
-
----
-C345678901
-
-Last block
-```
-
 ### GhostwriterPost
 
 Notify the selected range in visual mode to a specified Slack channel.
@@ -154,10 +196,11 @@ Notify the selected range in visual mode to a specified Slack channel.
 GhostwriterPost <channel_name> [mode]
 ```
 
-| Parameter      | Required   | Description                                                                                                                                       |
-| -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| channel_name   | true       | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**.   |
-| mode           | false      | `code`: Post as a code block.                                                                                                                                           |
+| Parameter      | Required   | Description                        |
+| -------------- | ---------- | ---------------------------------- |
+| channel_name   | true       | See [channel_name](#channel_name)  |
+| mode           | false      | `code`: Post as a code block.      |
+
 
 #### Examples
 
@@ -185,10 +228,10 @@ Select a channel from the list defined in the config file and display its latest
 GhostwriterRecentMessages <channel_name> <limit>
 ```
 
-| Parameter    | Required | Description                                                                                                                                     |
-|--------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| channel_name | true     | The name used to identify the channel. This is `channel.name` specified in the config, and is different from the **actual slack channel name**. |
-| limit        | false    | The maximum number of messages to return (default: 20)                                                                                          |
+| Parameter      | Required   | Default | Description                                             |
+| -------------- | ---------- | -       | ------------------------------------------------------- |
+| channel_name   | true       |         | See [channel_name](#channel_name)                       |
+| limit          | false      | 20      | The maximum number of messages to return                |
 
 You can also post the entered query as a message to Slack by pressing Alt+Enter.
 
@@ -203,15 +246,8 @@ GhostwriterRecentMessages times 50
 
 ```lua
   opts = {
-    -- Default configration
-
     -- If true, the buffer will be automatically saved when the post is successful
     autosave = true,
-    -- Defines the replacers in Slack notification messages
-    replacers = {
-      { pattern = "202%d+_", replaced = " " },
-      { pattern = " %d%d:%d%d ", replaced = " " },
-    },
     -- Defines the checkboxes converted to emojis in Slack notification messages
     check = {
       { mark = "x", emoji = "large_green_circle" },
@@ -232,6 +268,11 @@ GhostwriterRecentMessages times 50
     link = {
       -- Convert Markdown links to plaintext (ex: [hoge](http://hoge) -> hoge) 
       disabled = false,
+    },
+    -- Defines the replacers in Slack notification messages
+    replacers = {
+      { pattern = "202%d+_", replaced = " " },
+      { pattern = " %d%d:%d%d ", replaced = " " },
     },
     -- Mapping of channel names and channel IDs specified by command arguments or selections
     channel = {
@@ -286,11 +327,6 @@ mise watch -t test
 
 Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/workflows/release.yaml) manually.
 
-[chat:write]: https://api.slack.com/scopes/chat:write
-[channels:history]: https://api.slack.com/scopes/channels:history
-[groups:history]: https://api.slack.com/scopes/groups:history
-[im:history]: https://api.slack.com/scopes/im:history
-[mpim:history]: https://api.slack.com/scopes/mpim:history
 [vusted]: https://github.com/notomo/vusted
 [mise]: https://github.com/jdx/mise/tree/main
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
