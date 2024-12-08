@@ -24,7 +24,7 @@ return {
   },
   keys = {
     -- Set hotkeys
-  }
+  },
   opts = {
     -- Set options
   }
