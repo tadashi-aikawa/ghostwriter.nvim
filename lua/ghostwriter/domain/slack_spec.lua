@@ -23,7 +23,7 @@ describe("slack.pick_channel_and_ts", function()
 	end)
 
 	it("from invalid channel ID", function()
-		local channel_id, ts = slack.pick_channel_and_ts("HOGE123HOGE", {})
+		local channel_id, ts = slack.pick_channel_and_ts("hogehoge", {})
 		assert.same(nil, channel_id)
 		assert.same(nil, ts)
 	end)

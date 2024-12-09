@@ -32,7 +32,7 @@ function M.pick_channel_and_ts(dst, channels)
 		end
 	end
 
-	if #channel_id ~= 9 then
+	if not (#channel_id > 7 and string.find(channel_id, "^[A-Z0-9]+$")) then
 		return nil, nil
 	end
 
