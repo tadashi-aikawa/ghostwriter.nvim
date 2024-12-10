@@ -23,7 +23,6 @@ function M.exec(opts)
 
 	---@async
 	async.void(function()
-		vim.notify("⏳ Fetching ...", vim.log.levels.INFO, { timeout = 1000 })
 		local res = slack.get_coversations_history(dst.id, limit)
 		if not res.ok then
 			error(debug.print_table(res))
