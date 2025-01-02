@@ -222,7 +222,7 @@ GhostwriterCopy
 > [!IMPORTANT]
 > This command requires [telescope.nvim].
 
-Select a channel from the list defined in the config file and display its latest messages using Telescope.nvim. Selecting an item inserts the message body at the current cursor position. It is useful for checking a channel's posting status before executing a posting command (ex: `GhostwriterPost`) or quickly reviewing Slack messages to write them into the current buffer.
+Select a channel from the list defined in the config file and display its latest messages using Telescope.nvim. When you select an item, it will be yanked. The feature is useful for checking a channel's posting status before running a posting command (ex: `GhostwriterPost`) or for quickly reviewing Slack messages to write them into the current buffer or for similar tasks.
 
 ```
 GhostwriterRecentMessages <channel_name> <limit>

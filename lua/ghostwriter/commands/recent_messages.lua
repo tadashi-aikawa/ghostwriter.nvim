@@ -32,7 +32,7 @@ function M.exec(opts)
 
 		require("telescope.pickers")
 			.new({}, {
-				prompt_title = "Select a post to insert to the current buffer",
+				prompt_title = "<Select>: yanked(+ register) | <Alt+Enter>: post the query as a slack message",
 				finder = require("telescope.finders").new_table({
 					results = res.messages,
 					--- @param entry {text:string, ts:string}
@@ -59,7 +59,7 @@ function M.exec(opts)
 						actions.close(prompt_bufnr)
 						--- @type {value: string}
 						local selection = require("telescope.actions.state").get_selected_entry()
-						vim.api.nvim_put(vim.split(selection.value, "\n"), "", false, true)
+						vim.fn.setreg("+", selection.value)
 					end)
 
 					local action_state = require("telescope.actions.state")
