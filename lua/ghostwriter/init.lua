@@ -31,13 +31,14 @@ function M.setup(opts)
 	--- @type fun(completion_types: completion_type[]): function
 	local create_completion = function(completion_types)
 		return function(_, cmdline, _)
-			local args = vim.split(cmdline, "%s+")
+			local cmd_parts = vim.split(cmdline, "%s+", { trimempty = true })
+			table.remove(cmd_parts, 1)
 
-			if #args == 2 and completion_types[1] then
+			if #cmd_parts == 0 and completion_types[1] then
 				return create_suggestions(completion_types[1])
 			end
 
-			if #args == 3 and completion_types[2] then
+			if #cmd_parts == 1 and completion_types[2] then
 				return create_suggestions(completion_types[2])
 			end
 
