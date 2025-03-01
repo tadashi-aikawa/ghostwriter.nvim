@@ -33,6 +33,7 @@ function M.exec(opts)
 		require("telescope.pickers")
 			.new({}, {
 				prompt_title = "<Select>: yanked(+ register) | <Alt+Enter>: post the query as a slack message",
+				results_title = chname,
 				finder = require("telescope.finders").new_table({
 					results = res.messages,
 					--- @param entry {text:string, ts:string}
