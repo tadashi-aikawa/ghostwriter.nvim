@@ -136,6 +136,33 @@ describe("strings.convert_header", function()
 	end)
 end)
 
+describe("strings.convert_strong_emphasis", function()
+	it("converts **text** to *text*", function()
+		assert.same("*strong*", strings.convert_strong_emphasis("**strong**"))
+	end)
+
+	it("converts __text__ to *text*", function()
+		assert.same("*emphasis*", strings.convert_strong_emphasis("__emphasis__"))
+	end)
+
+	it("handles multiple strong emphasis in a single string", function()
+		assert.same("*start* middle *end*", strings.convert_strong_emphasis("**start** middle **end**"))
+		assert.same("*start* middle *end*", strings.convert_strong_emphasis("__start__ middle __end__"))
+		assert.same("*one* and *two*", strings.convert_strong_emphasis("**one** and __two__"))
+	end)
+
+	it("handles nested strong emphasis", function()
+		assert.same("*outer *inner* outer*", strings.convert_strong_emphasis("**outer **inner** outer**"))
+	end)
+
+	it("ignores incomplete strong emphasis", function()
+		assert.same("**incomplete", strings.convert_strong_emphasis("**incomplete"))
+		assert.same("incomplete**", strings.convert_strong_emphasis("incomplete**"))
+		assert.same("__incomplete", strings.convert_strong_emphasis("__incomplete"))
+		assert.same("incomplete__", strings.convert_strong_emphasis("incomplete__"))
+	end)
+end)
+
 describe("strings.convert_slack_link", function()
 	it("does not convert plain text", function()
 		assert.same("hogehoge", strings.convert_slack_link("hogehoge"))

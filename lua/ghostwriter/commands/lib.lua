@@ -13,6 +13,7 @@ local function transform_line(line, opts)
 	r_line = collections.reduce(config.options.check, config.transform_by_check, r_line)
 	r_line = strings.replace(r_line, "^(%s*)[-*] (.+)", "%1:" .. config.options.bullet.emoji .. ": %2")
 	r_line = strings.convert_header(r_line, config.options.header.before_blank_lines)
+	r_line = strings.convert_strong_emphasis(r_line)
 	r_line = strings.trim_wikilink(r_line)
 	if not (opts and opts.skip_convert_link) then
 		r_line = strings.convert_markdown_link(r_line, config.options.link)

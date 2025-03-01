@@ -85,6 +85,14 @@ function M.convert_header(input, before_blank_lines)
 	return M.replace(input, "^#+ (.+)", blank_lines .. "*%1*")
 end
 
+---Markdownの強調表示をSlackの表現に変換する
+---@param input string
+---@return string
+function M.convert_strong_emphasis(input)
+	local r = input:gsub("%*%*(.-)%*%*", "*%1*"):gsub("__(.-)__", "*%1*")
+	return r
+end
+
 ---正規表現用にエスケープする
 ---@param str string
 ---@return string
