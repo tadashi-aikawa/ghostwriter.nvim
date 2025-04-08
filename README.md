@@ -20,7 +20,7 @@ return {
   "tadashi-aikawa/ghostwriter.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim", -- Required for the GhostwriterRecentMessages command
+    "folke/snacks.nvim", -- Required for the GhostwriterRecentMessages command
   },
   keys = {
     -- Set hotkeys
@@ -220,9 +220,9 @@ GhostwriterCopy
 ### GhostwriterRecentMessages
 
 > [!IMPORTANT]
-> This command requires [telescope.nvim].
+> This command requires [snacks.nvim].
 
-Select a channel from the list defined in the config file and display its latest messages using Telescope.nvim. When you select an item, it will be yanked. The feature is useful for checking a channel's posting status before running a posting command (ex: `GhostwriterPost`) or for quickly reviewing Slack messages to write them into the current buffer or for similar tasks.
+Select a channel from the list defined in the config file and display its latest messages using [folke/snacks.nvim]. When you select an item, the content will be opened in a new buffer. The feature is useful for checking a channel's posting status before running a posting command (ex: `GhostwriterPost`) or for quickly editing Slack messages in a buffer.
 
 ```
 GhostwriterRecentMessages <channel_name> <limit>
@@ -232,8 +232,6 @@ GhostwriterRecentMessages <channel_name> <limit>
 | -------------- | ---------- | -       | ------------------------------------------------------- |
 | channel_name   | true       |         | See [channel_name](#channel_name)                       |
 | limit          | false      | 20      | The maximum number of messages to return                |
-
-You can also post the entered query as a message to Slack by pressing Alt+Enter.
 
 #### Examples
 
@@ -329,4 +327,4 @@ Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/
 
 [vusted]: https://github.com/notomo/vusted
 [mise]: https://github.com/jdx/mise/tree/main
-[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[folke/snacks.nvim]: https://github.com/folke/snacks.nvim
