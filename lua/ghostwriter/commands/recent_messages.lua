@@ -40,11 +40,40 @@ function M.exec(opts)
 				vim.api.nvim_buf_set_text(buf, 0, 0, -1, -1, vim.split(normalized_text, "\n"))
 				vim.api.nvim_set_option_value("filetype", "markdown", { buf = buf })
 
+				local date = os.date("%Y-%m-%d %X", tonumber(entry.ts))
 				return {
-					text = os.date("%Y-%m-%d %X", tonumber(entry.ts)) .. ": " .. normalized_text,
+					text = date .. ": " .. normalized_text,
+					date = date,
+					body = normalized_text,
+					ts = entry.ts,
 					buf = buf,
 				}
 			end, res.messages),
+			confirm = function(_picker)
+				local items = _picker:selected({ fallback = true })
+
+				local lines = vim.tbl_map(function(item)
+					return string.format(
+						[[
+@%s,%s
+%s
+
+%s
+]],
+						dst.name,
+						item.ts,
+						item.date,
+						item.body
+					)
+				end, items)
+				local text = table.concat(lines, "\n---\n")
+
+				-- 新しいバッファを作成
+				local buf = vim.api.nvim_create_buf(false, true)
+				vim.api.nvim_set_current_buf(buf)
+				vim.api.nvim_buf_set_text(buf, 0, 0, -1, -1, vim.split(text, "\n"))
+				vim.api.nvim_set_option_value("filetype", "markdown", { buf = buf })
+			end,
 		})
 	end)()
 end

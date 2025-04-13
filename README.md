@@ -222,7 +222,7 @@ GhostwriterCopy
 > [!IMPORTANT]
 > This command requires [snacks.nvim].
 
-Select a channel from the list defined in the config file and display its latest messages using [folke/snacks.nvim]. When you select an item, the content will be opened in a new buffer. The feature is useful for checking a channel's posting status before running a posting command (ex: `GhostwriterPost`) or for quickly editing Slack messages in a buffer.
+Select a channel from the list defined in the config file and display its latest messages using [folke/snacks.nvim]. When you select an item, the content will be opened in a new buffer with metadata. The feature is useful for checking a channel's posting status before running a posting command (ex: `GhostwriterPost`) or for quickly editing Slack messages in a buffer.
 
 ```
 GhostwriterRecentMessages <channel_name> <limit>
@@ -238,6 +238,33 @@ GhostwriterRecentMessages <channel_name> <limit>
 ```
 GhostwriterRecentMessages times
 GhostwriterRecentMessages times 50
+```
+
+##### Output format
+
+When one message is confirmed.
+
+```markdown
+@channel_name,1744524725.346499
+2025-04-13 15:12:05
+
+your post message
+
+```
+
+In case of selecting and confirm between two messages.
+
+```markdown
+@channel_name,1744532581.828019
+2025-04-13 17:23:01
+
+your post message
+
+---
+@channel_name,1744524725.346499
+2025-04-13 15:12:05
+
+your post message
 ```
 
 ## Configration
