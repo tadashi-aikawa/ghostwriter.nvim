@@ -65,4 +65,32 @@ function M.get_coversations_history(channel_id, limit)
 	return vim.json.decode(response.body)
 end
 
+--- @class SlackMessageMatch
+--- @field ts string
+--- @field text string
+--- @field username string
+--- @field channel {id: string, name: string}
+
+--- @alias sort "timestamp" | "score"
+
+---@async
+---@param query string
+---@param count number
+---@param sort sort
+---@return {ok: boolean, messages: {
+---  matches: SlackMessageMatch[],
+---}}
+function M.get_search_messages(query, count, sort)
+	local response = async.get({
+		url = "https://slack.com/api/search.messages",
+		headers = {
+			["Content-Type"] = "application/json; charset=UTF-8",
+			["Authorization"] = "Bearer " .. get_token(),
+		},
+		query = { query = query, count = count, sort = sort },
+	})
+
+	return vim.json.decode(response.body)
+end
+
 return M

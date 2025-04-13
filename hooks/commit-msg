@@ -33,10 +33,10 @@ function validateType() {
 # $1: scope
 function validateScope() {
   case $1 in
-  GhostwriterWrite | GhostwriterPost | GhostwriterCopy | GhostwriterRecentMessages | "") ;;
+  GhostwriterWrite | GhostwriterPost | GhostwriterCopy | GhostwriterRecentMessages | GhostwriterSearchMessages | "") ;;
   *)
     echo "Invalid scope: $1"
-    echo ">> GhostwriterWrite | GhostwriterPost | GhostwriterCopy | GhostwriterRecentMessages"
+    echo ">> GhostwriterWrite | GhostwriterPost | GhostwriterCopy | GhostwriterRecentMessages | GhostwriterSearchMessages"
     exit 1
     ;;
   esac

@@ -20,7 +20,7 @@ return {
   "tadashi-aikawa/ghostwriter.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "folke/snacks.nvim", -- Required for the GhostwriterRecentMessages command
+    "folke/snacks.nvim", -- Required for the GhostwriterRecentMessages command or the GhostwriterSearchMessages command
   },
   keys = {
     -- Set hotkeys
@@ -38,6 +38,7 @@ return {
     { "gsw", ":GhostwriterWrite<CR>", silent = true },
     { "gsp", ":GhostwriterPost", mode = { "v" } },
     { "gsm", ":GhostwriterRecentMessages" },
+    { "gss", ":GhostwriterSearchMessages" },
     { "gsy", ":GhostwriterCopy<CR>", mode = { "v" }, silent = true },
   }
 ```
@@ -53,6 +54,8 @@ You should create a [Slack user token](https://api.slack.com/concepts/token-type
     - [groups:history](https://api.slack.com/scopes/groups:history)
     - [im:history](https://api.slack.com/scopes/im:history)
     - [mpim:history](https://api.slack.com/scopes/mpim:history)
+- Optional (Used only for the `GhostwriterSearchMessages` command)
+    - [search:read](https://api.slack.com/scopes/search:read)
 
 ## Key Terms
 
@@ -267,6 +270,38 @@ your post message
 your post message
 ```
 
+### GhostwriterSearchMessages
+
+> [!IMPORTANT]
+> This command requires [snacks.nvim].
+
+Enter a search query to display search results in chronological order (newest first) using [folke/snacks.nvim]. When you select an item, the content will be opened in a new buffer with metadata. This feature allows you to write Slack search results to a single buffer, which is useful when you want to review, edit, or repost messages.
+
+```
+GhostwriterSearchMessages <query>
+```
+
+| Parameter      | Required   | Default | Description                                             |
+| -------------- | ---------- | -       | ------------------------------------------------------- |
+| query          | true       |         | [Search capabilities supported in Slack search field]   |
+
+There are some **custom syntax formats** specific to ghostwriter.nvim.
+
+| Syntax   | Meaning                              |
+| -------- | ------------------------------------ |
+| limit:N  | Set maximum number of results to N   |
+
+#### Examples
+
+```
+GhostwriterSearchMessages from:me on:today
+GhostwriterRecentMessages in:times_tadashi-aikawa limit:3 -from:me
+```
+
+##### Output format
+
+Same as [GhostwriterRecentMessages](#ghostwriterrecentmessages)
+
 ## Configration
 
 ```lua
@@ -355,3 +390,5 @@ Run [Release Action](https://github.com/tadashi-aikawa/ghostwriter.nvim/actions/
 [vusted]: https://github.com/notomo/vusted
 [mise]: https://github.com/jdx/mise/tree/main
 [folke/snacks.nvim]: https://github.com/folke/snacks.nvim
+[Search capabilities supported in Slack search field]: https://slack.com/intl/ja-jp/help/articles/202528808-Slack-%E5%86%85%E3%81%A7%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B
+

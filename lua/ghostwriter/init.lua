@@ -3,6 +3,7 @@ local write = require("ghostwriter.commands.write")
 local post = require("ghostwriter.commands.post")
 local copy = require("ghostwriter.commands.copy")
 local recent_messages = require("ghostwriter.commands.recent_messages")
+local search_messages = require("ghostwriter.commands.search_messages")
 local collections = require("ghostwriter.utils.collections")
 
 local M = {}
@@ -10,6 +11,7 @@ local M = {}
 --- @alias completion_type
 --- | '"channel_name"'
 --- | '"mode"'
+--- | '"query"'
 
 function M.setup(opts)
 	config.setup(opts)
@@ -24,12 +26,24 @@ function M.setup(opts)
 		if complection_type == "mode" then
 			return { "code" }
 		end
+		if complection_type == "query" then
+			return {
+				"limit:15",
+				"in:times_hogehoge",
+				"from:me",
+				"search_exclude_bots=false",
+				"on:today",
+				"on:yesterday",
+				"before:2025-01-01",
+				"after:2025-01-01",
+			}
+		end
 
 		error("Invalid completion_type")
 	end
 
-	--- @type fun(completion_types: completion_type[]): function
-	local create_completion = function(completion_types)
+	--- @type fun(completion_types: completion_type[], rest_default?: completion_type): function
+	local create_completion = function(completion_types, rest_default)
 		return function(_, cmdline, _)
 			local cmd_parts = vim.split(cmdline, "%s+", { trimempty = true })
 			table.remove(cmd_parts, 1)
@@ -40,6 +54,10 @@ function M.setup(opts)
 
 			if #cmd_parts == 1 and completion_types[2] then
 				return create_suggestions(completion_types[2])
+			end
+
+			if rest_default then
+				return create_suggestions(rest_default)
 			end
 
 			return {}
@@ -58,6 +76,10 @@ function M.setup(opts)
 	vim.api.nvim_create_user_command("GhostwriterRecentMessages", recent_messages.exec, {
 		nargs = "+",
 		complete = create_completion({ "channel_name" }),
+	})
+	vim.api.nvim_create_user_command("GhostwriterSearchMessages", search_messages.exec, {
+		nargs = "+",
+		complete = create_completion({ "query" }, "query"),
 	})
 end
 
