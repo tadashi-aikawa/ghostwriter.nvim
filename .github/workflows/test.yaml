@@ -15,6 +15,7 @@ jobs:
       - uses: rhysd/action-setup-vim@v1
         with:
           neovim: true
+      - run: sudo apt-get update && sudo apt-get install -y libreadline-dev
       - uses: jdx/mise-action@v2
         with:
           tool_versions: |
