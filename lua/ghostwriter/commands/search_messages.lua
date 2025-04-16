@@ -7,6 +7,53 @@ local picker = require("snacks.picker")
 
 local M = {}
 
+--- 再帰的にSlackメッセージを{count}件まで取得します
+---@param query string
+---@param count number
+---@return SlackMessageMatch[]
+---@async
+local function fetch_slack_messages(query, count)
+	local all_matches = {}
+	local remaining_count = count
+
+	local notifier = vim.notify("🔍 Searhing ...", vim.log.levels.INFO, { timeout = nil })
+
+	while remaining_count > 0 do
+		local request_count = math.min(remaining_count, 100)
+
+		notifier = vim.notify(
+			"🔍 Searching... " .. remaining_count .. " remaining items...",
+			vim.log.levels.INFO,
+			{ timeout = nil, replace = notifier }
+		)
+		local res = slack.get_search_messages(query, request_count, "timestamp")
+		if not res.ok then
+			error(debug.print_table(res))
+		end
+
+		if #res.messages.matches == 0 then
+			break
+		end
+
+		for _, match in ipairs(res.messages.matches) do
+			table.insert(all_matches, match)
+		end
+
+		remaining_count = remaining_count - #res.messages.matches
+
+		-- APIの制限に引っかからないように少し待機
+		async.sleep(100)
+
+		if #res.messages.matches < request_count then
+			break
+		end
+	end
+
+	vim.notify("👻 Search success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
+
+	return all_matches
+end
+
 ---@param opts {fargs: string[]}
 function M.exec(opts)
 	local query = table.concat(opts.fargs, " ")
@@ -22,15 +69,11 @@ function M.exec(opts)
 
 	---@async
 	async.void(function()
-		local res = slack.get_search_messages(query, count, "timestamp")
-		if not res.ok then
-			error(debug.print_table(res))
-		end
-
+		local messages = fetch_slack_messages(query, count)
 		async.terminate()
 
 		local items = {}
-		for _, entry in ipairs(res.messages.matches) do
+		for _, entry in ipairs(messages) do
 			local normalized_text = lib.slack_text_to_markdown(entry.text)
 			local buf = vim.api.nvim_create_buf(false, true)
 			vim.api.nvim_buf_set_text(buf, 0, 0, -1, -1, vim.split(normalized_text, "\n"))
