@@ -117,4 +117,15 @@ function M.convert_slack_link(input)
 	return v
 end
 
+---Slackのメンションを@userの形に正規化する
+---@param input string
+---@return string
+function M.normalize_slack_mention(input)
+	local v = input
+
+	v = M.replace(v, "<@.-|(.-)>", "@%1")
+
+	return v
+end
+
 return M

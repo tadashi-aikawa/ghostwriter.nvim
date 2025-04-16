@@ -70,6 +70,9 @@ function M.slack_text_to_markdown(text)
 		-- リンクの変換
 		line = strings.convert_slack_link(line)
 
+		-- メンションを@userに正規化
+		line = strings.normalize_slack_mention(line)
+
 		table.insert(body_lines, line)
 	end
 
