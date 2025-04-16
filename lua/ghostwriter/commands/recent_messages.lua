@@ -56,7 +56,7 @@ function M.exec(opts)
 					return string.format(
 						[[
 @%s,%s
-%s
+{"timestamp":"%s"}
 
 %s
 ]],

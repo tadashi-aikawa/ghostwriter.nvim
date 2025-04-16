@@ -100,7 +100,7 @@ function M.exec(opts)
 				return string.format(
 					[[
 @%s,%s
-%s %s @%s
+{"timestamp":"%s","channel":"%s","author":"%s"}
 
 %s
 ]],
