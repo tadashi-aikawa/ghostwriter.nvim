@@ -248,8 +248,8 @@ GhostwriterRecentMessages times 50
 When one message is confirmed.
 
 ```markdown
-@channel_name,1744524725.346499
-2025-04-13 15:12:05
+@dst,1744817077.947449
+{"timestamp":"2025-04-17 00:24:37"}
 
 your post message
 
@@ -258,14 +258,14 @@ your post message
 In case of selecting and confirm between two messages.
 
 ```markdown
-@channel_name,1744532581.828019
-2025-04-13 17:23:01
+@dst,1744817077.947449
+{"timestamp":"2025-04-17 00:24:37"}
 
 your post message
 
 ---
-@channel_name,1744524725.346499
-2025-04-13 15:12:05
+@dst,1744808993.541769
+{"timestamp":"2025-04-16 22:09:53"}
 
 your post message
 ```
@@ -300,7 +300,30 @@ GhostwriterRecentMessages in:times_tadashi-aikawa limit:3 -from:me
 
 ##### Output format
 
-Same as [GhostwriterRecentMessages](#ghostwriterrecentmessages)
+When one message is confirmed.
+
+```markdown
+@dst,1744817077.947449
+{"timestamp":"2025-04-17 00:24:37","channel":"times_tadashi-aikawa","author":"tadashi-aikawa"}
+
+your post message
+
+```
+
+In case of selecting and confirm between two messages.
+
+```markdown
+@dst,1744808993.541769
+{"timestamp":"2025-04-16 22:09:53","channel":"times_tadashi-aikawa","author":"tadashi-aikawa"}
+
+your post message
+
+---
+@dst,1744808441.011249
+{"timestamp":"2025-04-16 22:00:41","channel":"times_tadashi-aikawa","author":"tadashi-aikawa"}
+
+your post message
+```
 
 ## Configration
 
