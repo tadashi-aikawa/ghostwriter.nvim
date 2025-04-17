@@ -75,19 +75,20 @@ end
 
 ---@async
 ---@param query string
+---@param page number 1以上
 ---@param count number
 ---@param sort sort
 ---@return {ok: boolean, messages: {
 ---  matches: SlackMessageMatch[],
 ---}}
-function M.get_search_messages(query, count, sort)
+function M.get_search_messages(query, count, page, sort)
 	local response = async.get({
 		url = "https://slack.com/api/search.messages",
 		headers = {
 			["Content-Type"] = "application/json; charset=UTF-8",
 			["Authorization"] = "Bearer " .. get_token(),
 		},
-		query = { query = query, count = count, sort = sort },
+		query = { query = query, count = count, page = page, sort = sort },
 	})
 
 	return vim.json.decode(response.body)

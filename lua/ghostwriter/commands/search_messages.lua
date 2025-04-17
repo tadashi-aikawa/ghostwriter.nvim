@@ -13,8 +13,10 @@ local M = {}
 ---@return SlackMessageMatch[]
 ---@async
 local function fetch_slack_messages(query, count)
+	-- TODO: リファクタリングしたい...
 	local all_matches = {}
 	local remaining_count = count
+	local page = 1
 
 	local notifier = vim.notify("🔍 Searhing ...", vim.log.levels.INFO, { timeout = nil })
 
@@ -26,7 +28,7 @@ local function fetch_slack_messages(query, count)
 			vim.log.levels.INFO,
 			{ timeout = nil, replace = notifier }
 		)
-		local res = slack.get_search_messages(query, request_count, "timestamp")
+		local res = slack.get_search_messages(query, request_count, page, "timestamp")
 		if not res.ok then
 			error(debug.print_table(res))
 		end
@@ -47,6 +49,8 @@ local function fetch_slack_messages(query, count)
 		if #res.messages.matches < request_count then
 			break
 		end
+
+		page = page + 1
 	end
 
 	vim.notify("👻 Search success", vim.log.levels.INFO, { timeout = 1000, replace = notifier })
