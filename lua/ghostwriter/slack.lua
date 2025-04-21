@@ -70,6 +70,7 @@ end
 --- @field text string
 --- @field username string
 --- @field channel {id: string, name: string}
+--- @field permalink string
 
 --- @alias sort "timestamp" | "score"
 

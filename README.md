@@ -304,7 +304,7 @@ When one message is confirmed.
 
 ```markdown
 @dst,1744817077.947449
-{"timestamp":"2025-04-17 00:24:37","channel":"times_tadashi-aikawa","author":"tadashi-aikawa"}
+{"timestamp":"2025-04-17 00:24:37","channel":"times_tadashi-aikawa","author":"tadashi-aikawa","thread_ts":nil}
 
 your post message
 
@@ -314,13 +314,13 @@ In case of selecting and confirm between two messages.
 
 ```markdown
 @dst,1744808993.541769
-{"timestamp":"2025-04-16 22:09:53","channel":"times_tadashi-aikawa","author":"tadashi-aikawa"}
+{"timestamp":"2025-04-16 22:09:53","channel":"times_tadashi-aikawa","author":"tadashi-aikawa","thread_ts":"1744808993.541769"}
 
 your post message
 
 ---
 @dst,1744808441.011249
-{"timestamp":"2025-04-16 22:00:41","channel":"times_tadashi-aikawa","author":"tadashi-aikawa"}
+{"timestamp":"2025-04-16 22:00:41","channel":"times_tadashi-aikawa","author":"tadashi-aikawa","thread_ts":"1744808441.011249"}
 
 your post message
 ```

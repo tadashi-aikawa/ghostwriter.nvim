@@ -92,6 +92,7 @@ function M.exec(opts)
 				username = entry.username,
 				channel_id = entry.channel.id,
 				channel_name = entry.channel.name,
+				thread_ts = entry.permalink:match("thread_ts=(%d+%.%d+)"),
 				buf = buf,
 			})
 		end
@@ -104,7 +105,7 @@ function M.exec(opts)
 				return string.format(
 					[[
 @%s,%s
-{"timestamp":"%s","channel":"%s","author":"%s"}
+{"timestamp":"%s","channel":"%s","author":"%s","thread_ts":"%s"}
 
 %s
 ]],
@@ -113,6 +114,7 @@ function M.exec(opts)
 					item.date,
 					item.channel_name,
 					item.username,
+					item.thread_ts,
 					item.body
 				)
 			end)
